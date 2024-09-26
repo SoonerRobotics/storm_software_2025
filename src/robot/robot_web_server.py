@@ -1,12 +1,19 @@
 from aiohttp import web
 routes = web.RouteTableDef()
-from rtcbot import RTCConnection, CVCamera, MostRecentSubscription
+from rtcbot import RTCConnection, CVCamera, GetterSubscription
 from robot_serial import RobotSerial
 
 cam = CVCamera()
 conn = RTCConnection()
 conn.video.putSubscription(cam)
+robot = RobotSerial()
+robot.begin()
 
+
+@GetterSubscription
+def robotMessages():
+    if robot.operator_sendQueue:
+        return robot.operator_sendQueue.pop(0)
 
 @conn.subscribe
 def controls(msg):
@@ -16,6 +23,7 @@ def controls(msg):
 async def connect(request):
     clientOffer = await request.json()
     serverResponse = await conn.getLocalDescription(clientOffer)
+    
     return web.json_response(serverResponse)
 
 async def cleanup(app):

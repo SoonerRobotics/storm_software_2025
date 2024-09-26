@@ -1,18 +1,13 @@
-from rtcbot import MostRecentSubscription
-import logging
+from rtcbot.arduino import SerialConnection
+import asyncio
 import serial
 import sys
 import glob
-import threading
 
 class RobotSerial:
 
-    log = logging.getLogger("storm.RobotSerial")
-
     def __init__(self):
         
-        self.listen_thread = None
-        self.write_thread = None
         self.operator_sendQueue = []
         self.operator_receiveQueue = []
         self.selected_port = None
@@ -21,9 +16,8 @@ class RobotSerial:
         self.port_amount = len(self.ports)
         if self.port_amount > 0:
             self.selected_port = self.ports[0]
-        self.pico = serial.Serial(port=self.selected_port, baudrate=115200)
 
-        super().__init__(MostRecentSubscription, self.log, loop=None)
+        self.conn = SerialConnection(self.selected_port)
     
     def serial_ports(self):
     
@@ -47,31 +41,18 @@ class RobotSerial:
         
         return result
     
-    def listenSerialThread(self):
-        while(True):
-            if self.pico.in_waiting() > 0:
-                data = self.pico.readLine()
-                self._put_nowait(data)
-
-
-    def writeSerialThread(self):
-        while (True):
+    async def sendAndReceive(self):
+        while True:
             if self.operator_receiveQueue:
-                data = self.operator_receiveQueue.pop(0)
-                self.pico.write(data)
-
+                self.conn.put_nowait(self.operator_receiveQueue.pop(0))
+            msg = await self.conn.get()
+            self.operator_sendQueue.append(msg)
     
     def begin(self):
-
-        listen_serial_thread = threading.Thread(target=self.listenSerialThread, daemon=True)
-        write_serial_thread = threading.Thread(target=self.writeSerialThread, daemon=True)
-
-        listen_serial_thread.start()
-        write_serial_thread.start()
-
-        listen_serial_thread.join()
-        write_serial_thread.join()
-
-
-robot = RobotSerial()
-robot.begin()
+        loop = asyncio.get_event_loop()
+        try:
+            loop.run_forever()
+        finally:
+            loop.run_until_complete(loop.shutdown_asyncgens())
+            loop.close()
+        
