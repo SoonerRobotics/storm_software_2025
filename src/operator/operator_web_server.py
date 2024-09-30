@@ -4,7 +4,7 @@ from rtcbot import RTCConnection, getRTCBotJS, Gamepad
 from operator_connection_handler import ConnectionHandler
 
 
-# Dummy comment
+# Dummy comment part 2
 @routes.get("/rtcbot.js")
 async def rtcbotjs(request):
     return web.Response(content_type="application/javascript", text=getRTCBotJS())
