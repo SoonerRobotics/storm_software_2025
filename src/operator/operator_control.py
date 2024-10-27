@@ -1,13 +1,13 @@
 from aiohttp import web
 routes = web.RouteTableDef()
 
-from rtcbot import RTCConnection, getRTCBotJS
-
+from rtcbot import RTCConnection, getRTCBotJS, PiCamera#CVCamera #CVDisplay 
+cam = PiCamera()#yuh
+#display = CVDisplay
 conn = RTCConnection()
+conn.video.putSubscription(cam)#yeah
 
-@conn.subscribe
-def onMessage(m):
-    print("key press", m)
+
 
 # Serve the RTCBot javascript library at /rtcbot.js
 @routes.get("/rtcbot.js")
@@ -28,7 +28,7 @@ async def index(request):
         text=r"""
     <html>
         <head>
-            <title>RTCBot: YUH</title>
+            <title>RTCBot: REMOTE CONTROL</title>
             <script src="/rtcbot.js"></script>
         </head>
         <body style="text-align: center;padding-top: 30px;">
@@ -38,9 +38,20 @@ async def index(request):
             </p>
             <script>
                 var conn = new rtcbot.RTCConnection();
+
+               conn.video.subscribe(function(stream) {
+                    document.querySelector("video").srcObject = stream;
+                });
+                
+                
                 var kb = new rtcbot.Gamepad();
 
                 async function connect() {
+
+                    #let streams = await navigator.mediaDevices.getUserMedia({audio: false, video: true});
+                    #conn.video.putSubscription(streams.getVideoTracks()[0]);
+                    #conn.audio.putSubscription(streams.getAudioTracks()[0]);
+
                     let offer = await conn.getLocalDescription();
 
                     // POST the information to /connect
@@ -65,6 +76,8 @@ async def index(request):
 
 async def cleanup(app=None):
     await conn.close()
+    #display.close()
+    cam.close()
 
 app = web.Application()
 app.add_routes(routes)
