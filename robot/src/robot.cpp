@@ -1,6 +1,5 @@
 #include <ctime>
 #include <thread>
-#include <iostream>
 #include <bits/stdc++.h> 
 #include <stdlib.h> 
 #include <unistd.h> 
@@ -8,7 +7,7 @@
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
-#include <netinet/in.h> 
+#include <netinet/in.h>
 
 using namespace std;
 
