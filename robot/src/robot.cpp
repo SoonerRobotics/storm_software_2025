@@ -1,6 +1,5 @@
 #include <ctime>
-#include <thread>
-#include <bits/stdc++.h> 
+#include <thread> 
 #include <stdlib.h> 
 #include <unistd.h> 
 #include <string.h> 
@@ -49,8 +48,8 @@ int main() {
 	len = sizeof(cliaddr);
 
   std::thread network_thread(network, sock);
-  std::thread serial_thread();
-  std::thread messages_thread();
+  std::thread serial_thread(serial);
+  std::thread messages_thread(messages);
   
   network_thread.join();
   serial_thread.join();
