@@ -1,46 +1,54 @@
 import pygame
 import socket
 
-#gets inputs from controller and sends them to pi?or  transfers to serial and sends to pi
+# Initialize Pygame and joystick support
 pygame.init()
 pygame.joystick.init()
 
-server_ip = "127.0.0.1" #change later (?)
+server_ip = "127.0.0.1"  # Change 
 port = 8000
 
 def run():
-  server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) ##all we gonna do is send information
-  server.bind(('', port))
+    # Create a socket to send data
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Attempt to connect instead of binding 
+    try:
+        server.connect((server_ip, port))
+    except ConnectionRefusedError:
+        print("Could not connect to server.")
+        return
 
-  joysticks = []
-  for event in pygame.event.get():
-    if event.type == pygame.JOYDEVICEADDED:
-      joy = pygame.joystick.Joystick(event.device_index)
-      joysticks.append(joy)
- 
-  running = True;
-  while running:
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          running = False
-      
-        if event.type == pygame.JOYAXISMOTION:#we only care about the rightstick from right to left, axis 3   
-          leftStickX = joy.get_axis(3)
-          print("RS, axis3: " + leftStickX)
-          #flesh out
+    # Initialize the joystick 
+    if pygame.joystick.get_count() > 0:
+        joystick = pygame.joystick.Joystick(0)
+        joystick.init()
+        print("Controller connected:", joystick.get_name())
+    else:
+        print("No controller detected.")
+        return
 
-          rightStickY = joy.get_axis(1)#and up and down with leftstick for actual speed of the bot, axis 1
-          print("LS, axis1: " + rightStickY)
-          #flesh out 
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-          for i in range(joy.get_numaxes()):#smth to test what axes come through (if it works right)
-                  axis = joy.get_axis(i)
-                  print(axis + " ")
-          #triggers count as axis, LT: axis 2, RT: axis 5
-      
-        elif event.type == pygame.JOYBUTTONDOWN: # for other robot functions idk 
-          joy.getbutton()
+            elif event.type == pygame.JOYAXISMOTION:
+                leftStickX = joystick.get_axis(3)
+                rightStickY = joystick.get_axis(1)
 
-  pygame.quit()
+                print(f"RS, axis3: {leftStickX:.2f}")
+                print(f"LS, axis1: {rightStickY:.2f}")
+
+                for i in range(joystick.get_numaxes()):
+                    axis = joystick.get_axis(i)
+                    print(f"Axis {i}: {axis:.2f}")
+
+            elif event.type == pygame.JOYBUTTONDOWN:
+                print(f"Button {event.button} pressed")
+
+    pygame.quit()
+
 if __name__ == "__main__":
     run()
