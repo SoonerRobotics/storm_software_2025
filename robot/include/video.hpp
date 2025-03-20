@@ -1,5 +1,5 @@
-#ifndef VIDEOSTREAM_HPP
-#define VIDEOSTREAM_HPP
+#ifndef VIDEO_HPP
+#define VIDEO_HPP
 
 #include <boost/asio.hpp>
 #include <opencv2/opencv.hpp>
@@ -19,5 +19,5 @@ private:
     VideoStream& operator=(const VideoStream&) = delete;
 };
 
-#endif // VIDEOSTREAM_HPP
+#endif // VIDEO_HPP
 
