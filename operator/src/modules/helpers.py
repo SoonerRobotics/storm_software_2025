@@ -4,6 +4,37 @@ import time
 HOST = '127.0.0.1' # Robot's IP
 VIDEO_PORT = 5000
 MESSAGE_PORT = 5001
+USERNAME = 'braden'
+PASSWORD = '6242002'
+DARK_THEME = """
+        QWidget {
+            background-color: #2b2b2b;
+            color: #ffffff;
+        }
+        QTextEdit, QLineEdit {
+            background-color: #3c3f41;
+            color: #ffffff;
+            border: 1px solid #555555;
+        }
+        QPushButton {
+            background-color: #555555;
+            border: 1px solid #888888;
+            padding: 5px;
+        }
+        QPushButton:hover {
+            background-color: #777777;
+        }
+        QPushButton:pressed {
+            background-color: #999999;
+        }
+        QMenuBar, QMenu {
+            background-color: #2b2b2b;
+            color: #ffffff;
+        }
+        QMenu::item:selected {
+            background-color: #555555;
+        }
+    """
 
 def log_config():
     sys.path.insert(0, '/home/braden/storm_software_2025/') # Swap this with your own path.

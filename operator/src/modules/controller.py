@@ -9,7 +9,7 @@ import numpy as np
 import os
 import time
 from PyQt6.QtCore import QThread, pyqtSignal
-from .helpers import log, log_config, HOST, MESSAGE_PORT
+import modules.helpers as helpers
 
 class Controller(QThread):
 
@@ -31,9 +31,9 @@ class Controller(QThread):
     def send(self, data):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(data.encode(), (HOST, MESSAGE_PORT))
+                sock.sendto(data.encode(), (helpers.HOST, helpers.MESSAGE_PORT))
         except Exception as e:
-            self.log_update.emit(log(f'Error sending data: {e}', self.name))
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def controller_state(self):
         if not self.joystick or not self.joystick.get_init():
@@ -116,18 +116,19 @@ class Controller(QThread):
 
         self.controller_update.emit(state)
     
+    # Unfinished
     def run(self):
         
-        self.log_update.emit(log(f'Thread initialized. Sending on port {MESSAGE_PORT}.', self.name))
+        self.log_update.emit(helpers.log(f'Thread initialized. Sending on port {helpers.MESSAGE_PORT}.', self.name))
 
         while pygame.joystick.get_count() == 0:
             if pygame.joystick.get_count() > 0:
                 self.joystick = pygame.joystick.Joystick(0)
                 self.joystick.init()
-                self.log_update.emit(log('Controller connected.', self.name))
+                self.log_update.emit(helpers.log('Controller connected.', self.name))
                 self.controller_state()
             else:
-                self.log_update.emit(log('No controller detected. Retrying (5s)...', self.name))
+                self.log_update.emit(helpers.log('No controller detected. Retrying (5s)...', self.name))
                 self.controller_state()
                 QThread.sleep(5)
 

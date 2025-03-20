@@ -2,21 +2,22 @@ import numpy as np
 import time
 import cv2
 import sys
+import paramiko
+import subprocess
+import modules.helpers as helpers
 from art import text2art
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel, QWidget, QTextEdit
-from PyQt6.QtCore import Qt, QDate, QTime
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel, QWidget, QTextEdit, QLineEdit, QPushButton, QSpacerItem, QSizePolicy
+from PyQt6.QtCore import Qt, QDate, QTime, QProcess
 from PyQt6.QtGui import QImage, QPixmap, QFont
 from PyQt6.QtCore import QThread, pyqtSignal
 from modules.controller import Controller
 from modules.video import VideoReceiver
 from modules.messages import RobotMessages
+from modules.ssh import SSHTerminal
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
-        self.init_ui()
-        self.show()
 
         self.video = VideoReceiver()
         self.video.image_received.connect(self.update_frame)
@@ -30,11 +31,19 @@ class MainWindow(QMainWindow):
         self.controller.controller_update.connect(self.update_controller)
         self.controller.log_update.connect(self.update_log)
 
+        self.ssh = SSHTerminal(self)
+        self.ssh.log_update.connect(self.update_log)
+
+        self.ssh.start()
         self.robot.start()
         self.video.start()
         self.controller.start()
 
+        self.init_ui()
+        self.show()
+
     def init_ui(self):
+
         self.setWindowTitle('TBD Operator Interface')
         self.setGeometry(100, 100, 1920, 1080)
 
@@ -49,7 +58,7 @@ class MainWindow(QMainWindow):
         controller_info_layout = QVBoxLayout()
 
         self.controller_state = QLabel()
-        self.controller_state.setFont(QFont("Courier New", 13))
+        self.controller_state.setFont(QFont("Courier New", 9))
         self.controller_state.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
         controller_info_layout.addWidget(self.controller_state)
@@ -60,7 +69,7 @@ class MainWindow(QMainWindow):
         robot_info_layout = QVBoxLayout()
 
         self.robot_state = QLabel()
-        self.robot_state.setFont(QFont("Courier New", 13))
+        self.robot_state.setFont(QFont("Courier New", 9))
         self.robot_state.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter)
 
         robot_info_layout.addWidget(self.robot_state)
@@ -68,7 +77,7 @@ class MainWindow(QMainWindow):
         robot_info_box.setFixedHeight(200)
 
         self.scr_image = QLabel()
-        self.scr_image.setFixedSize(275, 150)
+        self.scr_image.setFixedSize(200, 109)
         self.scr_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         pixmap = QPixmap("/home/braden/storm_software_2025/operator/assets/SCR_Gear_23_Wide_White_on_Transparent.png")
@@ -76,7 +85,7 @@ class MainWindow(QMainWindow):
         self.scr_image.setScaledContents(True)
 
         self.storm_image = QLabel()
-        self.storm_image.setFixedSize(203, 175)
+        self.storm_image.setFixedSize(191, 165)
         self.storm_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         pixmap = QPixmap("/home/braden/storm_software_2025/operator/assets/STORMLogo.png")
@@ -88,13 +97,17 @@ class MainWindow(QMainWindow):
         left_panel.addWidget(self.scr_image, stretch=1, alignment=Qt.AlignmentFlag.AlignCenter)
         left_panel.addWidget(self.storm_image, stretch=1, alignment=Qt.AlignmentFlag.AlignCenter)
 
+        left_panel_widget = QWidget()
+        left_panel_widget.setLayout(left_panel)
+        left_panel_widget.setFixedWidth(250)
+
         right_panel = QVBoxLayout()
 
         self.video_panel = QLabel(self)
-        self.video_panel.setFixedSize(1280, 720)
+        self.video_panel.setFixedSize(1600, 675)
         
         blue_image = np.zeros((self.video_panel.height(), self.video_panel.width(), 3), dtype=np.uint8)
-        blue_image[:] = (0, 0, 255)  # Fill with blue color
+        blue_image[:] = (0, 0, 255)
         font = cv2.FONT_HERSHEY_SIMPLEX
         text = "Offline"
         text_size = cv2.getTextSize(text, font, 2, 2)[0]
@@ -109,14 +122,27 @@ class MainWindow(QMainWindow):
         right_panel.addStretch(1)
         right_panel.addWidget(self.video_panel, alignment=Qt.AlignmentFlag.AlignCenter)
         right_panel.addStretch(1)
-
+        
         self.log_display = QTextEdit(self)
+        self.log_display.setReadOnly(True)
         self.log_display.setFont(QFont("Courier New", 8))
         self.log_display.setReadOnly(True)
         self.log_display.setPlainText(f"{text2art("T B D  O p e r a t o r  I n t e r f a c e")}\nDate: {QDate.currentDate().toString()}\nTime: {QTime.currentTime().toString()}\n")
+        self.log_display.setFixedHeight(225)
+        self.log_display.setFixedWidth(1600)
 
-        right_panel.addWidget(self.log_display)
+        self.command_input = QLineEdit(self)
+        self.command_input.setPlaceholderText("Enter command to send to robot...")
+        self.command_input.setFont(QFont("Courier New", 10))
+        self.command_input.returnPressed.connect(self.ssh.send_command)
+        self.command_input.setFixedWidth(1600)
 
+        right_panel.addWidget(self.log_display, alignment=Qt.AlignmentFlag.AlignCenter)
+        right_panel.addWidget(self.command_input, alignment=Qt.AlignmentFlag.AlignCenter)
+        spacer = QSpacerItem(20, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        right_panel.addItem(spacer)
+
+        main_layout.addWidget(left_panel_widget, 1)
         main_layout.addLayout(left_panel, 1)
         main_layout.addLayout(right_panel, 3)
 
@@ -140,39 +166,8 @@ class MainWindow(QMainWindow):
     def update_log(self, log):
         self.log_display.append(log)
 
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    dark_style = """
-        QWidget {
-            background-color: #2b2b2b;
-            color: #ffffff;
-        }
-        QTextEdit, QLineEdit {
-            background-color: #3c3f41;
-            color: #ffffff;
-            border: 1px solid #555555;
-        }
-        QPushButton {
-            background-color: #555555;
-            border: 1px solid #888888;
-            padding: 5px;
-        }
-        QPushButton:hover {
-            background-color: #777777;
-        }
-        QPushButton:pressed {
-            background-color: #999999;
-        }
-        QMenuBar, QMenu {
-            background-color: #2b2b2b;
-            color: #ffffff;
-        }
-        QMenu::item:selected {
-            background-color: #555555;
-        }
-    """
-    app.setStyleSheet(dark_style)
+    app.setStyleSheet(helpers.DARK_THEME)
     window = MainWindow()
     sys.exit(app.exec())
