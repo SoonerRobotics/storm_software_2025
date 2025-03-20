@@ -28,13 +28,18 @@ void VideoStream::start() {
         cv::imencode(".jpg", frame, frame_data); 
 
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
-        socket.send_to(buffer, udp_endpoint);
-
-        cv::imshow("Sending Video", frame);
+        
+        try {
+            socket.send_to(buffer, udp_endpoint);
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
 
     }
 
     cap.release();
+    
 }
 
 
