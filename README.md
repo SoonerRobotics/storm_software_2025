@@ -1,2 +1,55 @@
 # storm_software_2025
-Sooner Competitive Robotics STORM 2025 Software
+
+Software for our 2025 [Student Teleoperated Robotics Mission] Robot Entry, TBD.
+
+We are using QtThreads on Ubuntu 24.04 for the operator and Asio on Raspbian Bookworm for the robot.
+
+## Dependencies
+
+### Operator
+
+To set up the dependencies for the operator code, run the following commands.
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+cd operator
+pip install -r requirements.txt
+```
+
+### Robot
+
+To set up the dependencies for the robot code, run the following commands.
+
+```bash
+sudo apt update
+sudo apt install build-essential cmake libboost-all-dev libopencv-dev libqt5core5a libqt5widgets5 libqt5gui5 libgstreamer1.0-0 libavcodec-dev libavformat-dev libswscale-dev libgstreamer-plugins-base1.0-0 libopencv-core-dev libopencv-imgproc-dev libopencv-highgui-dev
+```
+
+## Execute
+
+### Operator
+
+```bash
+python -m venv venv
+source venv/bin/activate
+cd operator/src
+python3 app.py
+```
+
+### Robot
+
+#### Automated 
+```bash
+cd robot
+./launch.sh # 1: Build, 2: Run, 3: Build/Run/Clean, 4: Clean
+```
+
+#### Manual
+```bash
+cd robot
+mkdir build && cd build
+cmake ..
+make
+./robot
+```
