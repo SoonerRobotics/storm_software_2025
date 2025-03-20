@@ -2,7 +2,7 @@
 
 Software for our 2025 [Student Teleoperated Robotics Mission] Robot Entry, TBD.
 
-We are using QtThreads on Ubuntu 24.04 for the operator and Asio on Raspbian Bookworm for the robot.
+We are using [PyQt6](https://www.riverbankcomputing.com/static/Docs/PyQt6/) on [Ubuntu 24.04](https://releases.ubuntu.com/24.04/) for the operator and [Boost.Asio](https://www.boost.org/doc/libs/1_87_0/doc/html/boost_asio.html) on [Raspbian Bookworm](https://www.raspberrypi.com/software/operating-systems/) for the robot.
 
 ## Dependencies
 
