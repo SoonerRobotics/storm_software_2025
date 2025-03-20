@@ -5,7 +5,6 @@ Software for our 2025 [Student Teleoperated Robotics Mission](https://storm.soon
 We are using [PyQt6](https://www.riverbankcomputing.com/static/Docs/PyQt6/) on [Ubuntu 24.04](https://releases.ubuntu.com/24.04/) for the operator, [Boost.Asio](https://www.boost.org/doc/libs/1_87_0/doc/html/boost_asio.html) on [Raspbian Bookworm](https://www.raspberrypi.com/software/operating-systems/) for the robot, and [PlatformIO](https://platformio.org/) for our firmware.
 
 
-
 ## Dependencies
 
 ### Operator
@@ -41,7 +40,7 @@ python3 app.py
 
 ### Robot
 
-The operator code automatically begins the robot's code when it begins to run. But, the following commands can run the code on their own.
+The operator code automatically begins the robot's code when it runs via SSH. But, the following commands can run the code on their own.
 
 #### Automated 
 ```bash
