@@ -29,6 +29,8 @@ sudo apt install build-essential cmake libboost-all-dev libopencv-dev libqt5core
 
 ## Execute
 
+![alt text](http://url/to/img.png)
+
 ### Operator
 
 ```bash
