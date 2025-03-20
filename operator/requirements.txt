@@ -1,0 +1,6 @@
+art==6.4
+numpy==2.2.4
+opencv_python==4.11.0.86
+pygame==2.6.1
+PyQt6==6.8.1
+PyQt6_sip==13.10.0
