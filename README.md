@@ -1,6 +1,6 @@
 # storm_software_2025
 
-Software for our 2025 [Student Teleoperated Robotics Mission](https://storm.soonerrobotics.org/) Robot Entry, TBD.
+Software for our 2025 [Student Teleoperated Robotics Mission](https://storm.soonerrobotics.org/) entry, TBD.
 
 We are using [PyQt6](https://www.riverbankcomputing.com/static/Docs/PyQt6/) on [Ubuntu 24.04](https://releases.ubuntu.com/24.04/) for the operator and [Boost.Asio](https://www.boost.org/doc/libs/1_87_0/doc/html/boost_asio.html) on [Raspbian Bookworm](https://www.raspberrypi.com/software/operating-systems/) for the robot.
 
