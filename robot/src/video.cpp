@@ -16,8 +16,6 @@ void VideoStream::start() {
         return;
     }
 
-    std::cout << "Sending video to " << VIDEO_HOST << ":" << VIDEO_PORT << "...\n";
-
     while (true) {
         cv::Mat frame;
         cap >> frame; 
