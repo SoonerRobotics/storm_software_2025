@@ -21,18 +21,12 @@ pip install -r requirements.txt
 
 ### Robot
 
-#### Software
-
 To set up the dependencies for the robot code, run the following commands.
 
 ```bash
 sudo apt update
 sudo apt install build-essential cmake libboost-all-dev libopencv-dev libqt5core5a libqt5widgets5 libqt5gui5 libgstreamer1.0-0 libavcodec-dev libavformat-dev libswscale-dev libgstreamer-plugins-base1.0-0 libopencv-core-dev libopencv-imgproc-dev libopencv-highgui-dev
 ```
-
-#### Firmware
-
-
 
 ## Execute
 
@@ -46,6 +40,8 @@ python3 app.py
 ```
 
 ### Robot
+
+The operator code automatically begins the robot's code when it begins to run. But, the following commands can run the code on their own.
 
 #### Automated 
 ```bash
