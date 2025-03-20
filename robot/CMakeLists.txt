@@ -1,20 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Project Name
 project(STORM_Robot)
 
-# Set C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add include directory
-include_directories(${PROJECT_SOURCE_DIR}/include)
+find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system thread)
 
-# Add source files
-add_executable(robot src/robot.cpp)
+include_directories(${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} include)
 
-# Link libraries from lib 
-target_link_libraries(robot PRIVATE ${PROJECT_SOURCE_DIR}/lib)
+set(SOURCE_FILES
+    src/robot.cpp
+    src/messages.cpp
+    src/video.cpp
+)
 
-set(rtc_DIR "/usr/local/lib/cmake/rtc") # Adjust path if necessary
-find_package(rtc REQUIRED)
+add_executable(robot ${SOURCE_FILES})
+
+target_link_libraries(robot PRIVATE ${OpenCV_LIBS} ${Boost_LIBRARIES})

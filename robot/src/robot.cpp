@@ -8,53 +8,40 @@
 #include <sys/socket.h> 
 #include <arpa/inet.h> 
 #include <netinet/in.h>
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include "video.hpp"
+#include "messages.hpp"
 
 using namespace std;
 
-void messages() {
- 
-}
-
-void serial() {
-
-}
-
-void network(int sock) {
-
-}
-
 int main() {
 
-  int sock;
-  struct sockaddr_in servaddr, cliaddr;
+  try {
+	boost::asio::io_service io_service;
 
-  if ((sock=socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		perror("Socket creation failed.");
-		exit(EXIT_FAILURE);
-	}
-	memset(&servaddr, 0, sizeof(servaddr));
-	memset(&cliaddr, 0, sizeof(cliaddr));
+	// SerialUDP serial_udp = SerialUDP(io_service, "/dev/ttyACM0", "127.0.0.1", 5000);
+	VideoStream video_stream = VideoStream(io_service, "127.0.0.1", 5001);
 
-	servaddr.sin_family = AF_INET;
-	servaddr.sin_addr.s_addr = INADDR_ANY;
-	servaddr.sin_port = htons(8080); 
+	/*
+	boost::thread serial_udp_thread([&]() {
+		serial_udp.start();
+	});
+	*/
 
-	if (bind(sock, (const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-		perror("Bind failed.");
-		exit(EXIT_FAILURE);
-	}
+	boost::thread video_stream_thread([&]() {
+		video_stream.start();
+	});
 
-	socklen_t len;
-	int n;
-	len = sizeof(cliaddr);
+	io_service.run();
 
-  std::thread network_thread(network, sock);
-  std::thread serial_thread();
-  std::thread messages_thread();
-  
-  network_thread.join();
-  serial_thread.join();
-  messages_thread.join();
+	// serial_udp_thread.join();
+	video_stream_thread.join();
+	
+  }
+  catch (const std::exception& e) {
+	std::cerr << "Error: " << e.what() << std::endl;
+  }
 
   return 0;
 
