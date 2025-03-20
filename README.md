@@ -41,7 +41,6 @@ python3 app.py
 
 #### Automated 
 ```bash
-cd robot
 ./launch.sh # 1: Build, 2: Run, 3: Build/Run/Clean, 4: Clean
 ```
 
