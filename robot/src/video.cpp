@@ -5,7 +5,7 @@
 
 VideoStream::VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port)
     : io_service(io_service),
-      socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),  // 0 means any available port
+      socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
       udp_endpoint(boost::asio::ip::address::from_string(host), port) {}
 
 void VideoStream::start() {
