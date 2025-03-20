@@ -50,6 +50,7 @@ The operator code automatically begins the robot's code when it runs via SSH. Bu
 
 #### Automated 
 ```bash
+cd robot
 ./launch.sh # 1: Build, 2: Run, 3: Build/Run/Clean, 4: Clean
 ```
 
