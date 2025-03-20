@@ -5,9 +5,6 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
-#define VIDEO_PORT 5001
-#define VIDEO_HOST "127.0.0.1"
-
 class VideoStream {
 public:
     VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port);
