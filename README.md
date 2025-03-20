@@ -4,6 +4,7 @@ Software for our 2025 [Student Teleoperated Robotics Mission](https://storm.soon
 
 We are using [PyQt6](https://www.riverbankcomputing.com/static/Docs/PyQt6/) on [Ubuntu 24.04](https://releases.ubuntu.com/24.04/) for the operator, [Boost.Asio](https://www.boost.org/doc/libs/1_87_0/doc/html/boost_asio.html) on [Raspbian Bookworm](https://www.raspberrypi.com/software/operating-systems/) for the robot, and [PlatformIO](https://platformio.org/) for our firmware.
 
+<img src="https://raw.githubusercontent.com/SoonerRobotics/storm_software_2025/refs/heads/main/operator/assets/RobotModel.png" alt="alt text" width="400" />
 
 ## Dependencies
 
@@ -29,7 +30,7 @@ sudo apt install build-essential cmake libboost-all-dev libopencv-dev libqt5core
 
 ## Execute
 
-![alt text](https://raw.githubusercontent.com/SoonerRobotics/storm_software_2025/refs/heads/main/operator/assets/GUI.png)
+<img src="https://raw.githubusercontent.com/SoonerRobotics/storm_software_2025/refs/heads/main/operator/assets/GUI.png" alt="alt text" width="400" />
 
 ### Operator
 
