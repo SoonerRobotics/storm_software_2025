@@ -29,7 +29,7 @@ sudo apt install build-essential cmake libboost-all-dev libopencv-dev libqt5core
 
 ## Execute
 
-![alt text](http://url/to/img.png)
+![alt text](https://raw.githubusercontent.com/SoonerRobotics/storm_software_2025/refs/heads/main/operator/assets/GUI.png)
 
 ### Operator
 
