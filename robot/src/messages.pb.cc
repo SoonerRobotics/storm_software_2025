@@ -20,6 +20,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
+namespace myproto {
 PROTOBUF_CONSTEXPR MotorCommand::MotorCommand(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.left_motor_speed_)*/0
@@ -89,89 +90,91 @@ struct WrapperDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WrapperDefaultTypeInternal _Wrapper_default_instance_;
+}  // namespace myproto
 static ::_pb::Metadata file_level_metadata_messages_2eproto[5];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_messages_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_messages_2eproto = nullptr;
 
 const uint32_t TableStruct_messages_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::MotorCommand, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::myproto::MotorCommand, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::MotorCommand, _impl_.left_motor_speed_),
-  PROTOBUF_FIELD_OFFSET(::MotorCommand, _impl_.right_motor_speed_),
+  PROTOBUF_FIELD_OFFSET(::myproto::MotorCommand, _impl_.left_motor_speed_),
+  PROTOBUF_FIELD_OFFSET(::myproto::MotorCommand, _impl_.right_motor_speed_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ArmCommand, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::myproto::ArmCommand, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::ArmCommand, _impl_.x_dir_),
-  PROTOBUF_FIELD_OFFSET(::ArmCommand, _impl_.y_dir_),
+  PROTOBUF_FIELD_OFFSET(::myproto::ArmCommand, _impl_.x_dir_),
+  PROTOBUF_FIELD_OFFSET(::myproto::ArmCommand, _impl_.y_dir_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::IntakeCommand, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::myproto::IntakeCommand, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::IntakeCommand, _impl_.speed_),
+  PROTOBUF_FIELD_OFFSET(::myproto::IntakeCommand, _impl_.speed_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ActuatorCommand, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::myproto::ActuatorCommand, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::ActuatorCommand, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::myproto::ActuatorCommand, _impl_.id_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Wrapper, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::myproto::Wrapper, _internal_metadata_),
   ~0u,  // no _extensions_
-  PROTOBUF_FIELD_OFFSET(::Wrapper, _impl_._oneof_case_[0]),
+  PROTOBUF_FIELD_OFFSET(::myproto::Wrapper, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Wrapper, _impl_.type_),
+  PROTOBUF_FIELD_OFFSET(::myproto::Wrapper, _impl_.type_),
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
-  PROTOBUF_FIELD_OFFSET(::Wrapper, _impl_.payload_),
+  PROTOBUF_FIELD_OFFSET(::myproto::Wrapper, _impl_.payload_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::MotorCommand)},
-  { 8, -1, -1, sizeof(::ArmCommand)},
-  { 16, -1, -1, sizeof(::IntakeCommand)},
-  { 23, -1, -1, sizeof(::ActuatorCommand)},
-  { 30, -1, -1, sizeof(::Wrapper)},
+  { 0, -1, -1, sizeof(::myproto::MotorCommand)},
+  { 8, -1, -1, sizeof(::myproto::ArmCommand)},
+  { 16, -1, -1, sizeof(::myproto::IntakeCommand)},
+  { 23, -1, -1, sizeof(::myproto::ActuatorCommand)},
+  { 30, -1, -1, sizeof(::myproto::Wrapper)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::_MotorCommand_default_instance_._instance,
-  &::_ArmCommand_default_instance_._instance,
-  &::_IntakeCommand_default_instance_._instance,
-  &::_ActuatorCommand_default_instance_._instance,
-  &::_Wrapper_default_instance_._instance,
+  &::myproto::_MotorCommand_default_instance_._instance,
+  &::myproto::_ArmCommand_default_instance_._instance,
+  &::myproto::_IntakeCommand_default_instance_._instance,
+  &::myproto::_ActuatorCommand_default_instance_._instance,
+  &::myproto::_Wrapper_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_messages_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016messages.proto\"C\n\014MotorCommand\022\030\n\020left"
-  "_motor_speed\030\001 \001(\002\022\031\n\021right_motor_speed\030"
-  "\002 \001(\002\"*\n\nArmCommand\022\r\n\005x_dir\030\001 \001(\002\022\r\n\005y_"
-  "dir\030\002 \001(\002\"\036\n\rIntakeCommand\022\r\n\005speed\030\001 \001("
-  "\002\"\035\n\017ActuatorCommand\022\n\n\002id\030\001 \001(\005\"\324\001\n\007Wra"
-  "pper\022\032\n\004type\030\001 \001(\0162\014.MessageType\022&\n\rmoto"
-  "r_command\030\002 \001(\0132\r.MotorCommandH\000\022\"\n\013arm_"
-  "command\030\003 \001(\0132\013.ArmCommandH\000\022(\n\016intake_c"
-  "ommand\030\004 \001(\0132\016.IntakeCommandH\000\022,\n\020actuat"
-  "or_command\030\005 \001(\0132\020.ActuatorCommandH\000B\t\n\007"
-  "payload*h\n\013MessageType\022\013\n\007UNKNOWN\020\000\022\021\n\rM"
-  "OTOR_COMMAND\020\001\022\017\n\013ARM_COMMAND\020\002\022\022\n\016INTAK"
-  "E_COMMAND\020\003\022\024\n\020ACTUATOR_COMMAND\020\004b\006proto"
-  "3"
+  "\n\016messages.proto\022\007myproto\"C\n\014MotorComman"
+  "d\022\030\n\020left_motor_speed\030\001 \001(\002\022\031\n\021right_mot"
+  "or_speed\030\002 \001(\002\"*\n\nArmCommand\022\r\n\005x_dir\030\001 "
+  "\001(\002\022\r\n\005y_dir\030\002 \001(\002\"\036\n\rIntakeCommand\022\r\n\005s"
+  "peed\030\001 \001(\002\"\035\n\017ActuatorCommand\022\n\n\002id\030\001 \001("
+  "\005\"\374\001\n\007Wrapper\022\"\n\004type\030\001 \001(\0162\024.myproto.Me"
+  "ssageType\022.\n\rmotor_command\030\002 \001(\0132\025.mypro"
+  "to.MotorCommandH\000\022*\n\013arm_command\030\003 \001(\0132\023"
+  ".myproto.ArmCommandH\000\0220\n\016intake_command\030"
+  "\004 \001(\0132\026.myproto.IntakeCommandH\000\0224\n\020actua"
+  "tor_command\030\005 \001(\0132\030.myproto.ActuatorComm"
+  "andH\000B\t\n\007payload*h\n\013MessageType\022\013\n\007UNKNO"
+  "WN\020\000\022\021\n\rMOTOR_COMMAND\020\001\022\017\n\013ARM_COMMAND\020\002"
+  "\022\022\n\016INTAKE_COMMAND\020\003\022\024\n\020ACTUATOR_COMMAND"
+  "\020\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_messages_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_messages_2eproto = {
-    false, false, 521, descriptor_table_protodef_messages_2eproto,
+    false, false, 570, descriptor_table_protodef_messages_2eproto,
     "messages.proto",
     &descriptor_table_messages_2eproto_once, nullptr, 0, 5,
     schemas, file_default_instances, TableStruct_messages_2eproto::offsets,
@@ -184,6 +187,7 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_messages
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_messages_2eproto(&descriptor_table_messages_2eproto);
+namespace myproto {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MessageType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_messages_2eproto);
   return file_level_enum_descriptors_messages_2eproto[0];
@@ -212,7 +216,7 @@ MotorCommand::MotorCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:MotorCommand)
+  // @@protoc_insertion_point(arena_constructor:myproto.MotorCommand)
 }
 MotorCommand::MotorCommand(const MotorCommand& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -226,7 +230,7 @@ MotorCommand::MotorCommand(const MotorCommand& from)
   ::memcpy(&_impl_.left_motor_speed_, &from._impl_.left_motor_speed_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.right_motor_speed_) -
     reinterpret_cast<char*>(&_impl_.left_motor_speed_)) + sizeof(_impl_.right_motor_speed_));
-  // @@protoc_insertion_point(copy_constructor:MotorCommand)
+  // @@protoc_insertion_point(copy_constructor:myproto.MotorCommand)
 }
 
 inline void MotorCommand::SharedCtor(
@@ -241,7 +245,7 @@ inline void MotorCommand::SharedCtor(
 }
 
 MotorCommand::~MotorCommand() {
-  // @@protoc_insertion_point(destructor:MotorCommand)
+  // @@protoc_insertion_point(destructor:myproto.MotorCommand)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -258,7 +262,7 @@ void MotorCommand::SetCachedSize(int size) const {
 }
 
 void MotorCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:MotorCommand)
+// @@protoc_insertion_point(message_clear_start:myproto.MotorCommand)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -316,7 +320,7 @@ failure:
 
 uint8_t* MotorCommand::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:MotorCommand)
+  // @@protoc_insertion_point(serialize_to_array_start:myproto.MotorCommand)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -344,12 +348,12 @@ uint8_t* MotorCommand::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:MotorCommand)
+  // @@protoc_insertion_point(serialize_to_array_end:myproto.MotorCommand)
   return target;
 }
 
 size_t MotorCommand::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:MotorCommand)
+// @@protoc_insertion_point(message_byte_size_start:myproto.MotorCommand)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -387,7 +391,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*MotorCommand::GetClassData() c
 void MotorCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<MotorCommand*>(&to_msg);
   auto& from = static_cast<const MotorCommand&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:MotorCommand)
+  // @@protoc_insertion_point(class_specific_merge_from_start:myproto.MotorCommand)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -410,7 +414,7 @@ void MotorCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
 }
 
 void MotorCommand::CopyFrom(const MotorCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:MotorCommand)
+// @@protoc_insertion_point(class_specific_copy_from_start:myproto.MotorCommand)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -447,7 +451,7 @@ ArmCommand::ArmCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:ArmCommand)
+  // @@protoc_insertion_point(arena_constructor:myproto.ArmCommand)
 }
 ArmCommand::ArmCommand(const ArmCommand& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -461,7 +465,7 @@ ArmCommand::ArmCommand(const ArmCommand& from)
   ::memcpy(&_impl_.x_dir_, &from._impl_.x_dir_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.y_dir_) -
     reinterpret_cast<char*>(&_impl_.x_dir_)) + sizeof(_impl_.y_dir_));
-  // @@protoc_insertion_point(copy_constructor:ArmCommand)
+  // @@protoc_insertion_point(copy_constructor:myproto.ArmCommand)
 }
 
 inline void ArmCommand::SharedCtor(
@@ -476,7 +480,7 @@ inline void ArmCommand::SharedCtor(
 }
 
 ArmCommand::~ArmCommand() {
-  // @@protoc_insertion_point(destructor:ArmCommand)
+  // @@protoc_insertion_point(destructor:myproto.ArmCommand)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -493,7 +497,7 @@ void ArmCommand::SetCachedSize(int size) const {
 }
 
 void ArmCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:ArmCommand)
+// @@protoc_insertion_point(message_clear_start:myproto.ArmCommand)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -551,7 +555,7 @@ failure:
 
 uint8_t* ArmCommand::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ArmCommand)
+  // @@protoc_insertion_point(serialize_to_array_start:myproto.ArmCommand)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -579,12 +583,12 @@ uint8_t* ArmCommand::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ArmCommand)
+  // @@protoc_insertion_point(serialize_to_array_end:myproto.ArmCommand)
   return target;
 }
 
 size_t ArmCommand::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ArmCommand)
+// @@protoc_insertion_point(message_byte_size_start:myproto.ArmCommand)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -622,7 +626,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ArmCommand::GetClassData() con
 void ArmCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<ArmCommand*>(&to_msg);
   auto& from = static_cast<const ArmCommand&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:ArmCommand)
+  // @@protoc_insertion_point(class_specific_merge_from_start:myproto.ArmCommand)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -645,7 +649,7 @@ void ArmCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
 }
 
 void ArmCommand::CopyFrom(const ArmCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ArmCommand)
+// @@protoc_insertion_point(class_specific_copy_from_start:myproto.ArmCommand)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -682,7 +686,7 @@ IntakeCommand::IntakeCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:IntakeCommand)
+  // @@protoc_insertion_point(arena_constructor:myproto.IntakeCommand)
 }
 IntakeCommand::IntakeCommand(const IntakeCommand& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -693,7 +697,7 @@ IntakeCommand::IntakeCommand(const IntakeCommand& from)
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _this->_impl_.speed_ = from._impl_.speed_;
-  // @@protoc_insertion_point(copy_constructor:IntakeCommand)
+  // @@protoc_insertion_point(copy_constructor:myproto.IntakeCommand)
 }
 
 inline void IntakeCommand::SharedCtor(
@@ -707,7 +711,7 @@ inline void IntakeCommand::SharedCtor(
 }
 
 IntakeCommand::~IntakeCommand() {
-  // @@protoc_insertion_point(destructor:IntakeCommand)
+  // @@protoc_insertion_point(destructor:myproto.IntakeCommand)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -724,7 +728,7 @@ void IntakeCommand::SetCachedSize(int size) const {
 }
 
 void IntakeCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:IntakeCommand)
+// @@protoc_insertion_point(message_clear_start:myproto.IntakeCommand)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -772,7 +776,7 @@ failure:
 
 uint8_t* IntakeCommand::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:IntakeCommand)
+  // @@protoc_insertion_point(serialize_to_array_start:myproto.IntakeCommand)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -790,12 +794,12 @@ uint8_t* IntakeCommand::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:IntakeCommand)
+  // @@protoc_insertion_point(serialize_to_array_end:myproto.IntakeCommand)
   return target;
 }
 
 size_t IntakeCommand::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:IntakeCommand)
+// @@protoc_insertion_point(message_byte_size_start:myproto.IntakeCommand)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -824,7 +828,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*IntakeCommand::GetClassData() 
 void IntakeCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<IntakeCommand*>(&to_msg);
   auto& from = static_cast<const IntakeCommand&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:IntakeCommand)
+  // @@protoc_insertion_point(class_specific_merge_from_start:myproto.IntakeCommand)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -840,7 +844,7 @@ void IntakeCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
 }
 
 void IntakeCommand::CopyFrom(const IntakeCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:IntakeCommand)
+// @@protoc_insertion_point(class_specific_copy_from_start:myproto.IntakeCommand)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -872,7 +876,7 @@ ActuatorCommand::ActuatorCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:ActuatorCommand)
+  // @@protoc_insertion_point(arena_constructor:myproto.ActuatorCommand)
 }
 ActuatorCommand::ActuatorCommand(const ActuatorCommand& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -883,7 +887,7 @@ ActuatorCommand::ActuatorCommand(const ActuatorCommand& from)
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _this->_impl_.id_ = from._impl_.id_;
-  // @@protoc_insertion_point(copy_constructor:ActuatorCommand)
+  // @@protoc_insertion_point(copy_constructor:myproto.ActuatorCommand)
 }
 
 inline void ActuatorCommand::SharedCtor(
@@ -897,7 +901,7 @@ inline void ActuatorCommand::SharedCtor(
 }
 
 ActuatorCommand::~ActuatorCommand() {
-  // @@protoc_insertion_point(destructor:ActuatorCommand)
+  // @@protoc_insertion_point(destructor:myproto.ActuatorCommand)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -914,7 +918,7 @@ void ActuatorCommand::SetCachedSize(int size) const {
 }
 
 void ActuatorCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:ActuatorCommand)
+// @@protoc_insertion_point(message_clear_start:myproto.ActuatorCommand)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -962,7 +966,7 @@ failure:
 
 uint8_t* ActuatorCommand::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ActuatorCommand)
+  // @@protoc_insertion_point(serialize_to_array_start:myproto.ActuatorCommand)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -976,12 +980,12 @@ uint8_t* ActuatorCommand::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ActuatorCommand)
+  // @@protoc_insertion_point(serialize_to_array_end:myproto.ActuatorCommand)
   return target;
 }
 
 size_t ActuatorCommand::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ActuatorCommand)
+// @@protoc_insertion_point(message_byte_size_start:myproto.ActuatorCommand)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -1006,7 +1010,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ActuatorCommand::GetClassData(
 void ActuatorCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<ActuatorCommand*>(&to_msg);
   auto& from = static_cast<const ActuatorCommand&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:ActuatorCommand)
+  // @@protoc_insertion_point(class_specific_merge_from_start:myproto.ActuatorCommand)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1018,7 +1022,7 @@ void ActuatorCommand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
 }
 
 void ActuatorCommand::CopyFrom(const ActuatorCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ActuatorCommand)
+// @@protoc_insertion_point(class_specific_copy_from_start:myproto.ActuatorCommand)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1044,29 +1048,29 @@ void ActuatorCommand::InternalSwap(ActuatorCommand* other) {
 
 class Wrapper::_Internal {
  public:
-  static const ::MotorCommand& motor_command(const Wrapper* msg);
-  static const ::ArmCommand& arm_command(const Wrapper* msg);
-  static const ::IntakeCommand& intake_command(const Wrapper* msg);
-  static const ::ActuatorCommand& actuator_command(const Wrapper* msg);
+  static const ::myproto::MotorCommand& motor_command(const Wrapper* msg);
+  static const ::myproto::ArmCommand& arm_command(const Wrapper* msg);
+  static const ::myproto::IntakeCommand& intake_command(const Wrapper* msg);
+  static const ::myproto::ActuatorCommand& actuator_command(const Wrapper* msg);
 };
 
-const ::MotorCommand&
+const ::myproto::MotorCommand&
 Wrapper::_Internal::motor_command(const Wrapper* msg) {
   return *msg->_impl_.payload_.motor_command_;
 }
-const ::ArmCommand&
+const ::myproto::ArmCommand&
 Wrapper::_Internal::arm_command(const Wrapper* msg) {
   return *msg->_impl_.payload_.arm_command_;
 }
-const ::IntakeCommand&
+const ::myproto::IntakeCommand&
 Wrapper::_Internal::intake_command(const Wrapper* msg) {
   return *msg->_impl_.payload_.intake_command_;
 }
-const ::ActuatorCommand&
+const ::myproto::ActuatorCommand&
 Wrapper::_Internal::actuator_command(const Wrapper* msg) {
   return *msg->_impl_.payload_.actuator_command_;
 }
-void Wrapper::set_allocated_motor_command(::MotorCommand* motor_command) {
+void Wrapper::set_allocated_motor_command(::myproto::MotorCommand* motor_command) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   clear_payload();
   if (motor_command) {
@@ -1079,9 +1083,9 @@ void Wrapper::set_allocated_motor_command(::MotorCommand* motor_command) {
     set_has_motor_command();
     _impl_.payload_.motor_command_ = motor_command;
   }
-  // @@protoc_insertion_point(field_set_allocated:Wrapper.motor_command)
+  // @@protoc_insertion_point(field_set_allocated:myproto.Wrapper.motor_command)
 }
-void Wrapper::set_allocated_arm_command(::ArmCommand* arm_command) {
+void Wrapper::set_allocated_arm_command(::myproto::ArmCommand* arm_command) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   clear_payload();
   if (arm_command) {
@@ -1094,9 +1098,9 @@ void Wrapper::set_allocated_arm_command(::ArmCommand* arm_command) {
     set_has_arm_command();
     _impl_.payload_.arm_command_ = arm_command;
   }
-  // @@protoc_insertion_point(field_set_allocated:Wrapper.arm_command)
+  // @@protoc_insertion_point(field_set_allocated:myproto.Wrapper.arm_command)
 }
-void Wrapper::set_allocated_intake_command(::IntakeCommand* intake_command) {
+void Wrapper::set_allocated_intake_command(::myproto::IntakeCommand* intake_command) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   clear_payload();
   if (intake_command) {
@@ -1109,9 +1113,9 @@ void Wrapper::set_allocated_intake_command(::IntakeCommand* intake_command) {
     set_has_intake_command();
     _impl_.payload_.intake_command_ = intake_command;
   }
-  // @@protoc_insertion_point(field_set_allocated:Wrapper.intake_command)
+  // @@protoc_insertion_point(field_set_allocated:myproto.Wrapper.intake_command)
 }
-void Wrapper::set_allocated_actuator_command(::ActuatorCommand* actuator_command) {
+void Wrapper::set_allocated_actuator_command(::myproto::ActuatorCommand* actuator_command) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   clear_payload();
   if (actuator_command) {
@@ -1124,13 +1128,13 @@ void Wrapper::set_allocated_actuator_command(::ActuatorCommand* actuator_command
     set_has_actuator_command();
     _impl_.payload_.actuator_command_ = actuator_command;
   }
-  // @@protoc_insertion_point(field_set_allocated:Wrapper.actuator_command)
+  // @@protoc_insertion_point(field_set_allocated:myproto.Wrapper.actuator_command)
 }
 Wrapper::Wrapper(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Wrapper)
+  // @@protoc_insertion_point(arena_constructor:myproto.Wrapper)
 }
 Wrapper::Wrapper(const Wrapper& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -1146,22 +1150,22 @@ Wrapper::Wrapper(const Wrapper& from)
   clear_has_payload();
   switch (from.payload_case()) {
     case kMotorCommand: {
-      _this->_internal_mutable_motor_command()->::MotorCommand::MergeFrom(
+      _this->_internal_mutable_motor_command()->::myproto::MotorCommand::MergeFrom(
           from._internal_motor_command());
       break;
     }
     case kArmCommand: {
-      _this->_internal_mutable_arm_command()->::ArmCommand::MergeFrom(
+      _this->_internal_mutable_arm_command()->::myproto::ArmCommand::MergeFrom(
           from._internal_arm_command());
       break;
     }
     case kIntakeCommand: {
-      _this->_internal_mutable_intake_command()->::IntakeCommand::MergeFrom(
+      _this->_internal_mutable_intake_command()->::myproto::IntakeCommand::MergeFrom(
           from._internal_intake_command());
       break;
     }
     case kActuatorCommand: {
-      _this->_internal_mutable_actuator_command()->::ActuatorCommand::MergeFrom(
+      _this->_internal_mutable_actuator_command()->::myproto::ActuatorCommand::MergeFrom(
           from._internal_actuator_command());
       break;
     }
@@ -1169,7 +1173,7 @@ Wrapper::Wrapper(const Wrapper& from)
       break;
     }
   }
-  // @@protoc_insertion_point(copy_constructor:Wrapper)
+  // @@protoc_insertion_point(copy_constructor:myproto.Wrapper)
 }
 
 inline void Wrapper::SharedCtor(
@@ -1186,7 +1190,7 @@ inline void Wrapper::SharedCtor(
 }
 
 Wrapper::~Wrapper() {
-  // @@protoc_insertion_point(destructor:Wrapper)
+  // @@protoc_insertion_point(destructor:myproto.Wrapper)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1206,7 +1210,7 @@ void Wrapper::SetCachedSize(int size) const {
 }
 
 void Wrapper::clear_payload() {
-// @@protoc_insertion_point(one_of_clear_start:Wrapper)
+// @@protoc_insertion_point(one_of_clear_start:myproto.Wrapper)
   switch (payload_case()) {
     case kMotorCommand: {
       if (GetArenaForAllocation() == nullptr) {
@@ -1241,7 +1245,7 @@ void Wrapper::clear_payload() {
 
 
 void Wrapper::Clear() {
-// @@protoc_insertion_point(message_clear_start:Wrapper)
+// @@protoc_insertion_point(message_clear_start:myproto.Wrapper)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1257,16 +1261,16 @@ const char* Wrapper::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .MessageType type = 1;
+      // .myproto.MessageType type = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_type(static_cast<::MessageType>(val));
+          _internal_set_type(static_cast<::myproto::MessageType>(val));
         } else
           goto handle_unusual;
         continue;
-      // .MotorCommand motor_command = 2;
+      // .myproto.MotorCommand motor_command = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_motor_command(), ptr);
@@ -1274,7 +1278,7 @@ const char* Wrapper::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // .ArmCommand arm_command = 3;
+      // .myproto.ArmCommand arm_command = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_arm_command(), ptr);
@@ -1282,7 +1286,7 @@ const char* Wrapper::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // .IntakeCommand intake_command = 4;
+      // .myproto.IntakeCommand intake_command = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_intake_command(), ptr);
@@ -1290,7 +1294,7 @@ const char* Wrapper::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) 
         } else
           goto handle_unusual;
         continue;
-      // .ActuatorCommand actuator_command = 5;
+      // .myproto.ActuatorCommand actuator_command = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_actuator_command(), ptr);
@@ -1323,39 +1327,39 @@ failure:
 
 uint8_t* Wrapper::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Wrapper)
+  // @@protoc_insertion_point(serialize_to_array_start:myproto.Wrapper)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .MessageType type = 1;
+  // .myproto.MessageType type = 1;
   if (this->_internal_type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
       1, this->_internal_type(), target);
   }
 
-  // .MotorCommand motor_command = 2;
+  // .myproto.MotorCommand motor_command = 2;
   if (_internal_has_motor_command()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(2, _Internal::motor_command(this),
         _Internal::motor_command(this).GetCachedSize(), target, stream);
   }
 
-  // .ArmCommand arm_command = 3;
+  // .myproto.ArmCommand arm_command = 3;
   if (_internal_has_arm_command()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(3, _Internal::arm_command(this),
         _Internal::arm_command(this).GetCachedSize(), target, stream);
   }
 
-  // .IntakeCommand intake_command = 4;
+  // .myproto.IntakeCommand intake_command = 4;
   if (_internal_has_intake_command()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(4, _Internal::intake_command(this),
         _Internal::intake_command(this).GetCachedSize(), target, stream);
   }
 
-  // .ActuatorCommand actuator_command = 5;
+  // .myproto.ActuatorCommand actuator_command = 5;
   if (_internal_has_actuator_command()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(5, _Internal::actuator_command(this),
@@ -1366,47 +1370,47 @@ uint8_t* Wrapper::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Wrapper)
+  // @@protoc_insertion_point(serialize_to_array_end:myproto.Wrapper)
   return target;
 }
 
 size_t Wrapper::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Wrapper)
+// @@protoc_insertion_point(message_byte_size_start:myproto.Wrapper)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .MessageType type = 1;
+  // .myproto.MessageType type = 1;
   if (this->_internal_type() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_type());
   }
 
   switch (payload_case()) {
-    // .MotorCommand motor_command = 2;
+    // .myproto.MotorCommand motor_command = 2;
     case kMotorCommand: {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.payload_.motor_command_);
       break;
     }
-    // .ArmCommand arm_command = 3;
+    // .myproto.ArmCommand arm_command = 3;
     case kArmCommand: {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.payload_.arm_command_);
       break;
     }
-    // .IntakeCommand intake_command = 4;
+    // .myproto.IntakeCommand intake_command = 4;
     case kIntakeCommand: {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.payload_.intake_command_);
       break;
     }
-    // .ActuatorCommand actuator_command = 5;
+    // .myproto.ActuatorCommand actuator_command = 5;
     case kActuatorCommand: {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -1430,7 +1434,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Wrapper::GetClassData() const 
 void Wrapper::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<Wrapper*>(&to_msg);
   auto& from = static_cast<const Wrapper&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Wrapper)
+  // @@protoc_insertion_point(class_specific_merge_from_start:myproto.Wrapper)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1440,22 +1444,22 @@ void Wrapper::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
   }
   switch (from.payload_case()) {
     case kMotorCommand: {
-      _this->_internal_mutable_motor_command()->::MotorCommand::MergeFrom(
+      _this->_internal_mutable_motor_command()->::myproto::MotorCommand::MergeFrom(
           from._internal_motor_command());
       break;
     }
     case kArmCommand: {
-      _this->_internal_mutable_arm_command()->::ArmCommand::MergeFrom(
+      _this->_internal_mutable_arm_command()->::myproto::ArmCommand::MergeFrom(
           from._internal_arm_command());
       break;
     }
     case kIntakeCommand: {
-      _this->_internal_mutable_intake_command()->::IntakeCommand::MergeFrom(
+      _this->_internal_mutable_intake_command()->::myproto::IntakeCommand::MergeFrom(
           from._internal_intake_command());
       break;
     }
     case kActuatorCommand: {
-      _this->_internal_mutable_actuator_command()->::ActuatorCommand::MergeFrom(
+      _this->_internal_mutable_actuator_command()->::myproto::ActuatorCommand::MergeFrom(
           from._internal_actuator_command());
       break;
     }
@@ -1467,7 +1471,7 @@ void Wrapper::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
 }
 
 void Wrapper::CopyFrom(const Wrapper& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Wrapper)
+// @@protoc_insertion_point(class_specific_copy_from_start:myproto.Wrapper)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1492,26 +1496,27 @@ void Wrapper::InternalSwap(Wrapper* other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace myproto
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::MotorCommand*
-Arena::CreateMaybeMessage< ::MotorCommand >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::MotorCommand >(arena);
+template<> PROTOBUF_NOINLINE ::myproto::MotorCommand*
+Arena::CreateMaybeMessage< ::myproto::MotorCommand >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::myproto::MotorCommand >(arena);
 }
-template<> PROTOBUF_NOINLINE ::ArmCommand*
-Arena::CreateMaybeMessage< ::ArmCommand >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ArmCommand >(arena);
+template<> PROTOBUF_NOINLINE ::myproto::ArmCommand*
+Arena::CreateMaybeMessage< ::myproto::ArmCommand >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::myproto::ArmCommand >(arena);
 }
-template<> PROTOBUF_NOINLINE ::IntakeCommand*
-Arena::CreateMaybeMessage< ::IntakeCommand >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::IntakeCommand >(arena);
+template<> PROTOBUF_NOINLINE ::myproto::IntakeCommand*
+Arena::CreateMaybeMessage< ::myproto::IntakeCommand >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::myproto::IntakeCommand >(arena);
 }
-template<> PROTOBUF_NOINLINE ::ActuatorCommand*
-Arena::CreateMaybeMessage< ::ActuatorCommand >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ActuatorCommand >(arena);
+template<> PROTOBUF_NOINLINE ::myproto::ActuatorCommand*
+Arena::CreateMaybeMessage< ::myproto::ActuatorCommand >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::myproto::ActuatorCommand >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Wrapper*
-Arena::CreateMaybeMessage< ::Wrapper >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Wrapper >(arena);
+template<> PROTOBUF_NOINLINE ::myproto::Wrapper*
+Arena::CreateMaybeMessage< ::myproto::Wrapper >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::myproto::Wrapper >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

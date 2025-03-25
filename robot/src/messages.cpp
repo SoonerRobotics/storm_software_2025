@@ -1,42 +1,40 @@
 #include "messages.hpp"
+#include "messages.pb.h"
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
+#include <google/protobuf/message.h>
 
 SerialUDP::SerialUDP(boost::asio::io_service& io_service, const std::string& port, const std::string& udp_host, unsigned short udp_port)
     : io_service(io_service),
       serial_port(io_service, port),
       udp_socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), udp_port)),
-      udp_endpoint(boost::asio::ip::address::from_string(udp_host), udp_port) {
+      udp_endpoint(boost::asio::ip::address::from_string(udp_host), udp_port),
+      stop_threads(false) {
 
     serial_port.set_option(boost::asio::serial_port_base::baud_rate(9600));
     serial_port.set_option(boost::asio::serial_port_base::character_size(8));
     serial_port.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
     serial_port.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
-
-    udp_socket.open(boost::asio::ip::udp::v4());
+    
 }
 
 void SerialUDP::start() {
-    serial_to_udp = boost::thread(&SerialUDP::readSerial, this);
-    udp_to_serial = boost::thread(&SerialUDP::readUDP, this);
+    readSerial();
+    readUDP();
+    io_service.run();
 }
 
 void SerialUDP::readSerial() {
-    while (true) {
-        boost::asio::async_read(serial_port, serial_buffer, boost::asio::transfer_at_least(1),
-            boost::bind(&SerialUDP::handleSerialRead, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-        io_service.run();
-    }
+    boost::asio::async_read(serial_port, serial_buffer, boost::asio::transfer_at_least(1),
+        boost::bind(&SerialUDP::handleSerialRead, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
 void SerialUDP::readUDP() {
-    while (true) {
-        udp_socket.async_receive_from(boost::asio::buffer(udp_buffer), udp_endpoint,
-            boost::bind(&SerialUDP::handleUDPRead, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-        io_service.run();
-    }
+    udp_socket.async_receive_from(boost::asio::buffer(udp_buffer), udp_endpoint,
+        boost::bind(&SerialUDP::handleUDPRead, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
+
 
 void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
@@ -44,50 +42,67 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
         std::string message;
         std::getline(is, message);
         sendUDP(message); 
-    } else {
+    } 
+    else {
         std::cerr << "Error reading from serial port: " << error.message() << std::endl;
     }
+    readSerial();
 }
 
 void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
         std::string udp_data(udp_buffer.data(), bytes_transferred);
 
-        if (motor_command_.ParseFromString(udp_data)) {
-            std::cout << "Received MotorCommand message from UDP" << std::endl;
-            std::cout << "Left motor speed: " << motor_command_.left_motor_speed() << std::endl;
-            std::cout << "Right motor speed: " << motor_command_.right_motor_speed() << std::endl;
-            std::string serialized_data;
-            motor_command_.SerializeToString(&serialized_data);
-            sendSerial(serialized_data);
-        } 
-        else if (arm_command_.ParseFromString(udp_data)) {
-            std::cout << "Received ArmCommand message from UDP" << std::endl;
-            std::cout << "X Pos: " << arm_command_.x_dir() << std::endl;
-            std::cout << "Y Pos: " << arm_command_.y_dir() << std::endl;
-            std::string serialized_data;
-            arm_command_.SerializeToString(&serialized_data);
-            sendSerial(serialized_data);
-        } 
-        else if (intake_command_.ParseFromString(udp_data)) {
-            std::cout << "Received IntakeCommand message from UDP" << std::endl;
-            std::cout << "Intake speed: " << intake_command_.speed() << std::endl;
-            std::string serialized_data;
-            intake_command_.SerializeToString(&serialized_data);
-            sendSerial(serialized_data);
-        } 
-        else if (actuator_command_.ParseFromString(udp_data)) {
-            std::cout << "Received ActuatorCommand message from UDP" << std::endl;
-            std::cout << "Actuator ID: " << actuator_command_.id() << std::endl;
-            std::string serialized_data;
-            actuator_command_.SerializeToString(&serialized_data);
-            sendSerial(serialized_data);
+        myproto::Wrapper wrapper;
+
+        if (wrapper.ParseFromString(udp_data)) {
+            std::cout << "Received message of type: " << wrapper.type() << std::endl;
+
+            switch (wrapper.type()) {
+                case myproto::MOTOR_COMMAND: {
+                    const auto& motor_command = wrapper.motor_command();
+                    std::string serialized_data;
+                    wrapper.SerializeToString(&serialized_data);
+                    sendSerial(serialized_data);
+                    break;
+                }
+                case myproto::ARM_COMMAND: {
+                    const auto& arm_command = wrapper.arm_command();
+                    std::string serialized_data;
+                    wrapper.SerializeToString(&serialized_data);
+                    sendSerial(serialized_data);
+                    break;
+                }
+                case myproto::INTAKE_COMMAND: {
+                    const auto& intake_command = wrapper.intake_command();
+                    std::string serialized_data;
+                    wrapper.SerializeToString(&serialized_data);
+                    sendSerial(serialized_data);
+                    break;
+                }
+                case myproto::ACTUATOR_COMMAND: {
+                    const auto& actuator_command = wrapper.actuator_command();
+                    std::string serialized_data;
+                    wrapper.SerializeToString(&serialized_data);
+                    sendSerial(serialized_data);
+                    break;
+                }
+                default:
+                    std::cerr << "Error: Unknown message type" << std::endl;
+                    break;
+            }
         } 
         else {
-            std::cerr << "Error: Couldn't parse message from UDP" << std::endl;
+            std::cerr << "Error: Couldn't parse Wrapper message from UDP" << std::endl;
         }
+    } 
+    else {
+        std::cerr << "Error reading from UDP: " << error.message() << std::endl;
     }
+
+    readUDP();
 }
+
 
 void SerialUDP::sendSerial(const std::string& message) {
     boost::asio::async_write(serial_port, boost::asio::buffer(message),

@@ -45,6 +45,7 @@ struct TableStruct_messages_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_messages_2eproto;
+namespace myproto {
 class ActuatorCommand;
 struct ActuatorCommandDefaultTypeInternal;
 extern ActuatorCommandDefaultTypeInternal _ActuatorCommand_default_instance_;
@@ -60,13 +61,15 @@ extern MotorCommandDefaultTypeInternal _MotorCommand_default_instance_;
 class Wrapper;
 struct WrapperDefaultTypeInternal;
 extern WrapperDefaultTypeInternal _Wrapper_default_instance_;
+}  // namespace myproto
 PROTOBUF_NAMESPACE_OPEN
-template<> ::ActuatorCommand* Arena::CreateMaybeMessage<::ActuatorCommand>(Arena*);
-template<> ::ArmCommand* Arena::CreateMaybeMessage<::ArmCommand>(Arena*);
-template<> ::IntakeCommand* Arena::CreateMaybeMessage<::IntakeCommand>(Arena*);
-template<> ::MotorCommand* Arena::CreateMaybeMessage<::MotorCommand>(Arena*);
-template<> ::Wrapper* Arena::CreateMaybeMessage<::Wrapper>(Arena*);
+template<> ::myproto::ActuatorCommand* Arena::CreateMaybeMessage<::myproto::ActuatorCommand>(Arena*);
+template<> ::myproto::ArmCommand* Arena::CreateMaybeMessage<::myproto::ArmCommand>(Arena*);
+template<> ::myproto::IntakeCommand* Arena::CreateMaybeMessage<::myproto::IntakeCommand>(Arena*);
+template<> ::myproto::MotorCommand* Arena::CreateMaybeMessage<::myproto::MotorCommand>(Arena*);
+template<> ::myproto::Wrapper* Arena::CreateMaybeMessage<::myproto::Wrapper>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace myproto {
 
 enum MessageType : int {
   UNKNOWN = 0,
@@ -99,7 +102,7 @@ inline bool MessageType_Parse(
 // ===================================================================
 
 class MotorCommand final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:MotorCommand) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:myproto.MotorCommand) */ {
  public:
   inline MotorCommand() : MotorCommand(nullptr) {}
   ~MotorCommand() override;
@@ -202,7 +205,7 @@ class MotorCommand final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "MotorCommand";
+    return "myproto.MotorCommand";
   }
   protected:
   explicit MotorCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -240,7 +243,7 @@ class MotorCommand final :
   void _internal_set_right_motor_speed(float value);
   public:
 
-  // @@protoc_insertion_point(class_scope:MotorCommand)
+  // @@protoc_insertion_point(class_scope:myproto.MotorCommand)
  private:
   class _Internal;
 
@@ -258,7 +261,7 @@ class MotorCommand final :
 // -------------------------------------------------------------------
 
 class ArmCommand final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ArmCommand) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:myproto.ArmCommand) */ {
  public:
   inline ArmCommand() : ArmCommand(nullptr) {}
   ~ArmCommand() override;
@@ -361,7 +364,7 @@ class ArmCommand final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ArmCommand";
+    return "myproto.ArmCommand";
   }
   protected:
   explicit ArmCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -399,7 +402,7 @@ class ArmCommand final :
   void _internal_set_y_dir(float value);
   public:
 
-  // @@protoc_insertion_point(class_scope:ArmCommand)
+  // @@protoc_insertion_point(class_scope:myproto.ArmCommand)
  private:
   class _Internal;
 
@@ -417,7 +420,7 @@ class ArmCommand final :
 // -------------------------------------------------------------------
 
 class IntakeCommand final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:IntakeCommand) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:myproto.IntakeCommand) */ {
  public:
   inline IntakeCommand() : IntakeCommand(nullptr) {}
   ~IntakeCommand() override;
@@ -520,7 +523,7 @@ class IntakeCommand final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "IntakeCommand";
+    return "myproto.IntakeCommand";
   }
   protected:
   explicit IntakeCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -548,7 +551,7 @@ class IntakeCommand final :
   void _internal_set_speed(float value);
   public:
 
-  // @@protoc_insertion_point(class_scope:IntakeCommand)
+  // @@protoc_insertion_point(class_scope:myproto.IntakeCommand)
  private:
   class _Internal;
 
@@ -565,7 +568,7 @@ class IntakeCommand final :
 // -------------------------------------------------------------------
 
 class ActuatorCommand final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ActuatorCommand) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:myproto.ActuatorCommand) */ {
  public:
   inline ActuatorCommand() : ActuatorCommand(nullptr) {}
   ~ActuatorCommand() override;
@@ -668,7 +671,7 @@ class ActuatorCommand final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ActuatorCommand";
+    return "myproto.ActuatorCommand";
   }
   protected:
   explicit ActuatorCommand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -696,7 +699,7 @@ class ActuatorCommand final :
   void _internal_set_id(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:ActuatorCommand)
+  // @@protoc_insertion_point(class_scope:myproto.ActuatorCommand)
  private:
   class _Internal;
 
@@ -713,7 +716,7 @@ class ActuatorCommand final :
 // -------------------------------------------------------------------
 
 class Wrapper final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Wrapper) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:myproto.Wrapper) */ {
  public:
   inline Wrapper() : Wrapper(nullptr) {}
   ~Wrapper() override;
@@ -824,7 +827,7 @@ class Wrapper final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Wrapper";
+    return "myproto.Wrapper";
   }
   protected:
   explicit Wrapper(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -847,90 +850,90 @@ class Wrapper final :
     kIntakeCommandFieldNumber = 4,
     kActuatorCommandFieldNumber = 5,
   };
-  // .MessageType type = 1;
+  // .myproto.MessageType type = 1;
   void clear_type();
-  ::MessageType type() const;
-  void set_type(::MessageType value);
+  ::myproto::MessageType type() const;
+  void set_type(::myproto::MessageType value);
   private:
-  ::MessageType _internal_type() const;
-  void _internal_set_type(::MessageType value);
+  ::myproto::MessageType _internal_type() const;
+  void _internal_set_type(::myproto::MessageType value);
   public:
 
-  // .MotorCommand motor_command = 2;
+  // .myproto.MotorCommand motor_command = 2;
   bool has_motor_command() const;
   private:
   bool _internal_has_motor_command() const;
   public:
   void clear_motor_command();
-  const ::MotorCommand& motor_command() const;
-  PROTOBUF_NODISCARD ::MotorCommand* release_motor_command();
-  ::MotorCommand* mutable_motor_command();
-  void set_allocated_motor_command(::MotorCommand* motor_command);
+  const ::myproto::MotorCommand& motor_command() const;
+  PROTOBUF_NODISCARD ::myproto::MotorCommand* release_motor_command();
+  ::myproto::MotorCommand* mutable_motor_command();
+  void set_allocated_motor_command(::myproto::MotorCommand* motor_command);
   private:
-  const ::MotorCommand& _internal_motor_command() const;
-  ::MotorCommand* _internal_mutable_motor_command();
+  const ::myproto::MotorCommand& _internal_motor_command() const;
+  ::myproto::MotorCommand* _internal_mutable_motor_command();
   public:
   void unsafe_arena_set_allocated_motor_command(
-      ::MotorCommand* motor_command);
-  ::MotorCommand* unsafe_arena_release_motor_command();
+      ::myproto::MotorCommand* motor_command);
+  ::myproto::MotorCommand* unsafe_arena_release_motor_command();
 
-  // .ArmCommand arm_command = 3;
+  // .myproto.ArmCommand arm_command = 3;
   bool has_arm_command() const;
   private:
   bool _internal_has_arm_command() const;
   public:
   void clear_arm_command();
-  const ::ArmCommand& arm_command() const;
-  PROTOBUF_NODISCARD ::ArmCommand* release_arm_command();
-  ::ArmCommand* mutable_arm_command();
-  void set_allocated_arm_command(::ArmCommand* arm_command);
+  const ::myproto::ArmCommand& arm_command() const;
+  PROTOBUF_NODISCARD ::myproto::ArmCommand* release_arm_command();
+  ::myproto::ArmCommand* mutable_arm_command();
+  void set_allocated_arm_command(::myproto::ArmCommand* arm_command);
   private:
-  const ::ArmCommand& _internal_arm_command() const;
-  ::ArmCommand* _internal_mutable_arm_command();
+  const ::myproto::ArmCommand& _internal_arm_command() const;
+  ::myproto::ArmCommand* _internal_mutable_arm_command();
   public:
   void unsafe_arena_set_allocated_arm_command(
-      ::ArmCommand* arm_command);
-  ::ArmCommand* unsafe_arena_release_arm_command();
+      ::myproto::ArmCommand* arm_command);
+  ::myproto::ArmCommand* unsafe_arena_release_arm_command();
 
-  // .IntakeCommand intake_command = 4;
+  // .myproto.IntakeCommand intake_command = 4;
   bool has_intake_command() const;
   private:
   bool _internal_has_intake_command() const;
   public:
   void clear_intake_command();
-  const ::IntakeCommand& intake_command() const;
-  PROTOBUF_NODISCARD ::IntakeCommand* release_intake_command();
-  ::IntakeCommand* mutable_intake_command();
-  void set_allocated_intake_command(::IntakeCommand* intake_command);
+  const ::myproto::IntakeCommand& intake_command() const;
+  PROTOBUF_NODISCARD ::myproto::IntakeCommand* release_intake_command();
+  ::myproto::IntakeCommand* mutable_intake_command();
+  void set_allocated_intake_command(::myproto::IntakeCommand* intake_command);
   private:
-  const ::IntakeCommand& _internal_intake_command() const;
-  ::IntakeCommand* _internal_mutable_intake_command();
+  const ::myproto::IntakeCommand& _internal_intake_command() const;
+  ::myproto::IntakeCommand* _internal_mutable_intake_command();
   public:
   void unsafe_arena_set_allocated_intake_command(
-      ::IntakeCommand* intake_command);
-  ::IntakeCommand* unsafe_arena_release_intake_command();
+      ::myproto::IntakeCommand* intake_command);
+  ::myproto::IntakeCommand* unsafe_arena_release_intake_command();
 
-  // .ActuatorCommand actuator_command = 5;
+  // .myproto.ActuatorCommand actuator_command = 5;
   bool has_actuator_command() const;
   private:
   bool _internal_has_actuator_command() const;
   public:
   void clear_actuator_command();
-  const ::ActuatorCommand& actuator_command() const;
-  PROTOBUF_NODISCARD ::ActuatorCommand* release_actuator_command();
-  ::ActuatorCommand* mutable_actuator_command();
-  void set_allocated_actuator_command(::ActuatorCommand* actuator_command);
+  const ::myproto::ActuatorCommand& actuator_command() const;
+  PROTOBUF_NODISCARD ::myproto::ActuatorCommand* release_actuator_command();
+  ::myproto::ActuatorCommand* mutable_actuator_command();
+  void set_allocated_actuator_command(::myproto::ActuatorCommand* actuator_command);
   private:
-  const ::ActuatorCommand& _internal_actuator_command() const;
-  ::ActuatorCommand* _internal_mutable_actuator_command();
+  const ::myproto::ActuatorCommand& _internal_actuator_command() const;
+  ::myproto::ActuatorCommand* _internal_mutable_actuator_command();
   public:
   void unsafe_arena_set_allocated_actuator_command(
-      ::ActuatorCommand* actuator_command);
-  ::ActuatorCommand* unsafe_arena_release_actuator_command();
+      ::myproto::ActuatorCommand* actuator_command);
+  ::myproto::ActuatorCommand* unsafe_arena_release_actuator_command();
 
   void clear_payload();
   PayloadCase payload_case() const;
-  // @@protoc_insertion_point(class_scope:Wrapper)
+  // @@protoc_insertion_point(class_scope:myproto.Wrapper)
  private:
   class _Internal;
   void set_has_motor_command();
@@ -949,10 +952,10 @@ class Wrapper final :
     union PayloadUnion {
       constexpr PayloadUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
-      ::MotorCommand* motor_command_;
-      ::ArmCommand* arm_command_;
-      ::IntakeCommand* intake_command_;
-      ::ActuatorCommand* actuator_command_;
+      ::myproto::MotorCommand* motor_command_;
+      ::myproto::ArmCommand* arm_command_;
+      ::myproto::IntakeCommand* intake_command_;
+      ::myproto::ActuatorCommand* actuator_command_;
     } payload_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[1];
@@ -980,7 +983,7 @@ inline float MotorCommand::_internal_left_motor_speed() const {
   return _impl_.left_motor_speed_;
 }
 inline float MotorCommand::left_motor_speed() const {
-  // @@protoc_insertion_point(field_get:MotorCommand.left_motor_speed)
+  // @@protoc_insertion_point(field_get:myproto.MotorCommand.left_motor_speed)
   return _internal_left_motor_speed();
 }
 inline void MotorCommand::_internal_set_left_motor_speed(float value) {
@@ -989,7 +992,7 @@ inline void MotorCommand::_internal_set_left_motor_speed(float value) {
 }
 inline void MotorCommand::set_left_motor_speed(float value) {
   _internal_set_left_motor_speed(value);
-  // @@protoc_insertion_point(field_set:MotorCommand.left_motor_speed)
+  // @@protoc_insertion_point(field_set:myproto.MotorCommand.left_motor_speed)
 }
 
 // float right_motor_speed = 2;
@@ -1000,7 +1003,7 @@ inline float MotorCommand::_internal_right_motor_speed() const {
   return _impl_.right_motor_speed_;
 }
 inline float MotorCommand::right_motor_speed() const {
-  // @@protoc_insertion_point(field_get:MotorCommand.right_motor_speed)
+  // @@protoc_insertion_point(field_get:myproto.MotorCommand.right_motor_speed)
   return _internal_right_motor_speed();
 }
 inline void MotorCommand::_internal_set_right_motor_speed(float value) {
@@ -1009,7 +1012,7 @@ inline void MotorCommand::_internal_set_right_motor_speed(float value) {
 }
 inline void MotorCommand::set_right_motor_speed(float value) {
   _internal_set_right_motor_speed(value);
-  // @@protoc_insertion_point(field_set:MotorCommand.right_motor_speed)
+  // @@protoc_insertion_point(field_set:myproto.MotorCommand.right_motor_speed)
 }
 
 // -------------------------------------------------------------------
@@ -1024,7 +1027,7 @@ inline float ArmCommand::_internal_x_dir() const {
   return _impl_.x_dir_;
 }
 inline float ArmCommand::x_dir() const {
-  // @@protoc_insertion_point(field_get:ArmCommand.x_dir)
+  // @@protoc_insertion_point(field_get:myproto.ArmCommand.x_dir)
   return _internal_x_dir();
 }
 inline void ArmCommand::_internal_set_x_dir(float value) {
@@ -1033,7 +1036,7 @@ inline void ArmCommand::_internal_set_x_dir(float value) {
 }
 inline void ArmCommand::set_x_dir(float value) {
   _internal_set_x_dir(value);
-  // @@protoc_insertion_point(field_set:ArmCommand.x_dir)
+  // @@protoc_insertion_point(field_set:myproto.ArmCommand.x_dir)
 }
 
 // float y_dir = 2;
@@ -1044,7 +1047,7 @@ inline float ArmCommand::_internal_y_dir() const {
   return _impl_.y_dir_;
 }
 inline float ArmCommand::y_dir() const {
-  // @@protoc_insertion_point(field_get:ArmCommand.y_dir)
+  // @@protoc_insertion_point(field_get:myproto.ArmCommand.y_dir)
   return _internal_y_dir();
 }
 inline void ArmCommand::_internal_set_y_dir(float value) {
@@ -1053,7 +1056,7 @@ inline void ArmCommand::_internal_set_y_dir(float value) {
 }
 inline void ArmCommand::set_y_dir(float value) {
   _internal_set_y_dir(value);
-  // @@protoc_insertion_point(field_set:ArmCommand.y_dir)
+  // @@protoc_insertion_point(field_set:myproto.ArmCommand.y_dir)
 }
 
 // -------------------------------------------------------------------
@@ -1068,7 +1071,7 @@ inline float IntakeCommand::_internal_speed() const {
   return _impl_.speed_;
 }
 inline float IntakeCommand::speed() const {
-  // @@protoc_insertion_point(field_get:IntakeCommand.speed)
+  // @@protoc_insertion_point(field_get:myproto.IntakeCommand.speed)
   return _internal_speed();
 }
 inline void IntakeCommand::_internal_set_speed(float value) {
@@ -1077,7 +1080,7 @@ inline void IntakeCommand::_internal_set_speed(float value) {
 }
 inline void IntakeCommand::set_speed(float value) {
   _internal_set_speed(value);
-  // @@protoc_insertion_point(field_set:IntakeCommand.speed)
+  // @@protoc_insertion_point(field_set:myproto.IntakeCommand.speed)
 }
 
 // -------------------------------------------------------------------
@@ -1092,7 +1095,7 @@ inline int32_t ActuatorCommand::_internal_id() const {
   return _impl_.id_;
 }
 inline int32_t ActuatorCommand::id() const {
-  // @@protoc_insertion_point(field_get:ActuatorCommand.id)
+  // @@protoc_insertion_point(field_get:myproto.ActuatorCommand.id)
   return _internal_id();
 }
 inline void ActuatorCommand::_internal_set_id(int32_t value) {
@@ -1101,34 +1104,34 @@ inline void ActuatorCommand::_internal_set_id(int32_t value) {
 }
 inline void ActuatorCommand::set_id(int32_t value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:ActuatorCommand.id)
+  // @@protoc_insertion_point(field_set:myproto.ActuatorCommand.id)
 }
 
 // -------------------------------------------------------------------
 
 // Wrapper
 
-// .MessageType type = 1;
+// .myproto.MessageType type = 1;
 inline void Wrapper::clear_type() {
   _impl_.type_ = 0;
 }
-inline ::MessageType Wrapper::_internal_type() const {
-  return static_cast< ::MessageType >(_impl_.type_);
+inline ::myproto::MessageType Wrapper::_internal_type() const {
+  return static_cast< ::myproto::MessageType >(_impl_.type_);
 }
-inline ::MessageType Wrapper::type() const {
-  // @@protoc_insertion_point(field_get:Wrapper.type)
+inline ::myproto::MessageType Wrapper::type() const {
+  // @@protoc_insertion_point(field_get:myproto.Wrapper.type)
   return _internal_type();
 }
-inline void Wrapper::_internal_set_type(::MessageType value) {
+inline void Wrapper::_internal_set_type(::myproto::MessageType value) {
   
   _impl_.type_ = value;
 }
-inline void Wrapper::set_type(::MessageType value) {
+inline void Wrapper::set_type(::myproto::MessageType value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:Wrapper.type)
+  // @@protoc_insertion_point(field_set:myproto.Wrapper.type)
 }
 
-// .MotorCommand motor_command = 2;
+// .myproto.MotorCommand motor_command = 2;
 inline bool Wrapper::_internal_has_motor_command() const {
   return payload_case() == kMotorCommand;
 }
@@ -1146,11 +1149,11 @@ inline void Wrapper::clear_motor_command() {
     clear_has_payload();
   }
 }
-inline ::MotorCommand* Wrapper::release_motor_command() {
-  // @@protoc_insertion_point(field_release:Wrapper.motor_command)
+inline ::myproto::MotorCommand* Wrapper::release_motor_command() {
+  // @@protoc_insertion_point(field_release:myproto.Wrapper.motor_command)
   if (_internal_has_motor_command()) {
     clear_has_payload();
-    ::MotorCommand* temp = _impl_.payload_.motor_command_;
+    ::myproto::MotorCommand* temp = _impl_.payload_.motor_command_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -1160,49 +1163,49 @@ inline ::MotorCommand* Wrapper::release_motor_command() {
     return nullptr;
   }
 }
-inline const ::MotorCommand& Wrapper::_internal_motor_command() const {
+inline const ::myproto::MotorCommand& Wrapper::_internal_motor_command() const {
   return _internal_has_motor_command()
       ? *_impl_.payload_.motor_command_
-      : reinterpret_cast< ::MotorCommand&>(::_MotorCommand_default_instance_);
+      : reinterpret_cast< ::myproto::MotorCommand&>(::myproto::_MotorCommand_default_instance_);
 }
-inline const ::MotorCommand& Wrapper::motor_command() const {
-  // @@protoc_insertion_point(field_get:Wrapper.motor_command)
+inline const ::myproto::MotorCommand& Wrapper::motor_command() const {
+  // @@protoc_insertion_point(field_get:myproto.Wrapper.motor_command)
   return _internal_motor_command();
 }
-inline ::MotorCommand* Wrapper::unsafe_arena_release_motor_command() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:Wrapper.motor_command)
+inline ::myproto::MotorCommand* Wrapper::unsafe_arena_release_motor_command() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:myproto.Wrapper.motor_command)
   if (_internal_has_motor_command()) {
     clear_has_payload();
-    ::MotorCommand* temp = _impl_.payload_.motor_command_;
+    ::myproto::MotorCommand* temp = _impl_.payload_.motor_command_;
     _impl_.payload_.motor_command_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Wrapper::unsafe_arena_set_allocated_motor_command(::MotorCommand* motor_command) {
+inline void Wrapper::unsafe_arena_set_allocated_motor_command(::myproto::MotorCommand* motor_command) {
   clear_payload();
   if (motor_command) {
     set_has_motor_command();
     _impl_.payload_.motor_command_ = motor_command;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Wrapper.motor_command)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:myproto.Wrapper.motor_command)
 }
-inline ::MotorCommand* Wrapper::_internal_mutable_motor_command() {
+inline ::myproto::MotorCommand* Wrapper::_internal_mutable_motor_command() {
   if (!_internal_has_motor_command()) {
     clear_payload();
     set_has_motor_command();
-    _impl_.payload_.motor_command_ = CreateMaybeMessage< ::MotorCommand >(GetArenaForAllocation());
+    _impl_.payload_.motor_command_ = CreateMaybeMessage< ::myproto::MotorCommand >(GetArenaForAllocation());
   }
   return _impl_.payload_.motor_command_;
 }
-inline ::MotorCommand* Wrapper::mutable_motor_command() {
-  ::MotorCommand* _msg = _internal_mutable_motor_command();
-  // @@protoc_insertion_point(field_mutable:Wrapper.motor_command)
+inline ::myproto::MotorCommand* Wrapper::mutable_motor_command() {
+  ::myproto::MotorCommand* _msg = _internal_mutable_motor_command();
+  // @@protoc_insertion_point(field_mutable:myproto.Wrapper.motor_command)
   return _msg;
 }
 
-// .ArmCommand arm_command = 3;
+// .myproto.ArmCommand arm_command = 3;
 inline bool Wrapper::_internal_has_arm_command() const {
   return payload_case() == kArmCommand;
 }
@@ -1220,11 +1223,11 @@ inline void Wrapper::clear_arm_command() {
     clear_has_payload();
   }
 }
-inline ::ArmCommand* Wrapper::release_arm_command() {
-  // @@protoc_insertion_point(field_release:Wrapper.arm_command)
+inline ::myproto::ArmCommand* Wrapper::release_arm_command() {
+  // @@protoc_insertion_point(field_release:myproto.Wrapper.arm_command)
   if (_internal_has_arm_command()) {
     clear_has_payload();
-    ::ArmCommand* temp = _impl_.payload_.arm_command_;
+    ::myproto::ArmCommand* temp = _impl_.payload_.arm_command_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -1234,49 +1237,49 @@ inline ::ArmCommand* Wrapper::release_arm_command() {
     return nullptr;
   }
 }
-inline const ::ArmCommand& Wrapper::_internal_arm_command() const {
+inline const ::myproto::ArmCommand& Wrapper::_internal_arm_command() const {
   return _internal_has_arm_command()
       ? *_impl_.payload_.arm_command_
-      : reinterpret_cast< ::ArmCommand&>(::_ArmCommand_default_instance_);
+      : reinterpret_cast< ::myproto::ArmCommand&>(::myproto::_ArmCommand_default_instance_);
 }
-inline const ::ArmCommand& Wrapper::arm_command() const {
-  // @@protoc_insertion_point(field_get:Wrapper.arm_command)
+inline const ::myproto::ArmCommand& Wrapper::arm_command() const {
+  // @@protoc_insertion_point(field_get:myproto.Wrapper.arm_command)
   return _internal_arm_command();
 }
-inline ::ArmCommand* Wrapper::unsafe_arena_release_arm_command() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:Wrapper.arm_command)
+inline ::myproto::ArmCommand* Wrapper::unsafe_arena_release_arm_command() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:myproto.Wrapper.arm_command)
   if (_internal_has_arm_command()) {
     clear_has_payload();
-    ::ArmCommand* temp = _impl_.payload_.arm_command_;
+    ::myproto::ArmCommand* temp = _impl_.payload_.arm_command_;
     _impl_.payload_.arm_command_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Wrapper::unsafe_arena_set_allocated_arm_command(::ArmCommand* arm_command) {
+inline void Wrapper::unsafe_arena_set_allocated_arm_command(::myproto::ArmCommand* arm_command) {
   clear_payload();
   if (arm_command) {
     set_has_arm_command();
     _impl_.payload_.arm_command_ = arm_command;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Wrapper.arm_command)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:myproto.Wrapper.arm_command)
 }
-inline ::ArmCommand* Wrapper::_internal_mutable_arm_command() {
+inline ::myproto::ArmCommand* Wrapper::_internal_mutable_arm_command() {
   if (!_internal_has_arm_command()) {
     clear_payload();
     set_has_arm_command();
-    _impl_.payload_.arm_command_ = CreateMaybeMessage< ::ArmCommand >(GetArenaForAllocation());
+    _impl_.payload_.arm_command_ = CreateMaybeMessage< ::myproto::ArmCommand >(GetArenaForAllocation());
   }
   return _impl_.payload_.arm_command_;
 }
-inline ::ArmCommand* Wrapper::mutable_arm_command() {
-  ::ArmCommand* _msg = _internal_mutable_arm_command();
-  // @@protoc_insertion_point(field_mutable:Wrapper.arm_command)
+inline ::myproto::ArmCommand* Wrapper::mutable_arm_command() {
+  ::myproto::ArmCommand* _msg = _internal_mutable_arm_command();
+  // @@protoc_insertion_point(field_mutable:myproto.Wrapper.arm_command)
   return _msg;
 }
 
-// .IntakeCommand intake_command = 4;
+// .myproto.IntakeCommand intake_command = 4;
 inline bool Wrapper::_internal_has_intake_command() const {
   return payload_case() == kIntakeCommand;
 }
@@ -1294,11 +1297,11 @@ inline void Wrapper::clear_intake_command() {
     clear_has_payload();
   }
 }
-inline ::IntakeCommand* Wrapper::release_intake_command() {
-  // @@protoc_insertion_point(field_release:Wrapper.intake_command)
+inline ::myproto::IntakeCommand* Wrapper::release_intake_command() {
+  // @@protoc_insertion_point(field_release:myproto.Wrapper.intake_command)
   if (_internal_has_intake_command()) {
     clear_has_payload();
-    ::IntakeCommand* temp = _impl_.payload_.intake_command_;
+    ::myproto::IntakeCommand* temp = _impl_.payload_.intake_command_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -1308,49 +1311,49 @@ inline ::IntakeCommand* Wrapper::release_intake_command() {
     return nullptr;
   }
 }
-inline const ::IntakeCommand& Wrapper::_internal_intake_command() const {
+inline const ::myproto::IntakeCommand& Wrapper::_internal_intake_command() const {
   return _internal_has_intake_command()
       ? *_impl_.payload_.intake_command_
-      : reinterpret_cast< ::IntakeCommand&>(::_IntakeCommand_default_instance_);
+      : reinterpret_cast< ::myproto::IntakeCommand&>(::myproto::_IntakeCommand_default_instance_);
 }
-inline const ::IntakeCommand& Wrapper::intake_command() const {
-  // @@protoc_insertion_point(field_get:Wrapper.intake_command)
+inline const ::myproto::IntakeCommand& Wrapper::intake_command() const {
+  // @@protoc_insertion_point(field_get:myproto.Wrapper.intake_command)
   return _internal_intake_command();
 }
-inline ::IntakeCommand* Wrapper::unsafe_arena_release_intake_command() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:Wrapper.intake_command)
+inline ::myproto::IntakeCommand* Wrapper::unsafe_arena_release_intake_command() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:myproto.Wrapper.intake_command)
   if (_internal_has_intake_command()) {
     clear_has_payload();
-    ::IntakeCommand* temp = _impl_.payload_.intake_command_;
+    ::myproto::IntakeCommand* temp = _impl_.payload_.intake_command_;
     _impl_.payload_.intake_command_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Wrapper::unsafe_arena_set_allocated_intake_command(::IntakeCommand* intake_command) {
+inline void Wrapper::unsafe_arena_set_allocated_intake_command(::myproto::IntakeCommand* intake_command) {
   clear_payload();
   if (intake_command) {
     set_has_intake_command();
     _impl_.payload_.intake_command_ = intake_command;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Wrapper.intake_command)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:myproto.Wrapper.intake_command)
 }
-inline ::IntakeCommand* Wrapper::_internal_mutable_intake_command() {
+inline ::myproto::IntakeCommand* Wrapper::_internal_mutable_intake_command() {
   if (!_internal_has_intake_command()) {
     clear_payload();
     set_has_intake_command();
-    _impl_.payload_.intake_command_ = CreateMaybeMessage< ::IntakeCommand >(GetArenaForAllocation());
+    _impl_.payload_.intake_command_ = CreateMaybeMessage< ::myproto::IntakeCommand >(GetArenaForAllocation());
   }
   return _impl_.payload_.intake_command_;
 }
-inline ::IntakeCommand* Wrapper::mutable_intake_command() {
-  ::IntakeCommand* _msg = _internal_mutable_intake_command();
-  // @@protoc_insertion_point(field_mutable:Wrapper.intake_command)
+inline ::myproto::IntakeCommand* Wrapper::mutable_intake_command() {
+  ::myproto::IntakeCommand* _msg = _internal_mutable_intake_command();
+  // @@protoc_insertion_point(field_mutable:myproto.Wrapper.intake_command)
   return _msg;
 }
 
-// .ActuatorCommand actuator_command = 5;
+// .myproto.ActuatorCommand actuator_command = 5;
 inline bool Wrapper::_internal_has_actuator_command() const {
   return payload_case() == kActuatorCommand;
 }
@@ -1368,11 +1371,11 @@ inline void Wrapper::clear_actuator_command() {
     clear_has_payload();
   }
 }
-inline ::ActuatorCommand* Wrapper::release_actuator_command() {
-  // @@protoc_insertion_point(field_release:Wrapper.actuator_command)
+inline ::myproto::ActuatorCommand* Wrapper::release_actuator_command() {
+  // @@protoc_insertion_point(field_release:myproto.Wrapper.actuator_command)
   if (_internal_has_actuator_command()) {
     clear_has_payload();
-    ::ActuatorCommand* temp = _impl_.payload_.actuator_command_;
+    ::myproto::ActuatorCommand* temp = _impl_.payload_.actuator_command_;
     if (GetArenaForAllocation() != nullptr) {
       temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
     }
@@ -1382,45 +1385,45 @@ inline ::ActuatorCommand* Wrapper::release_actuator_command() {
     return nullptr;
   }
 }
-inline const ::ActuatorCommand& Wrapper::_internal_actuator_command() const {
+inline const ::myproto::ActuatorCommand& Wrapper::_internal_actuator_command() const {
   return _internal_has_actuator_command()
       ? *_impl_.payload_.actuator_command_
-      : reinterpret_cast< ::ActuatorCommand&>(::_ActuatorCommand_default_instance_);
+      : reinterpret_cast< ::myproto::ActuatorCommand&>(::myproto::_ActuatorCommand_default_instance_);
 }
-inline const ::ActuatorCommand& Wrapper::actuator_command() const {
-  // @@protoc_insertion_point(field_get:Wrapper.actuator_command)
+inline const ::myproto::ActuatorCommand& Wrapper::actuator_command() const {
+  // @@protoc_insertion_point(field_get:myproto.Wrapper.actuator_command)
   return _internal_actuator_command();
 }
-inline ::ActuatorCommand* Wrapper::unsafe_arena_release_actuator_command() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:Wrapper.actuator_command)
+inline ::myproto::ActuatorCommand* Wrapper::unsafe_arena_release_actuator_command() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:myproto.Wrapper.actuator_command)
   if (_internal_has_actuator_command()) {
     clear_has_payload();
-    ::ActuatorCommand* temp = _impl_.payload_.actuator_command_;
+    ::myproto::ActuatorCommand* temp = _impl_.payload_.actuator_command_;
     _impl_.payload_.actuator_command_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Wrapper::unsafe_arena_set_allocated_actuator_command(::ActuatorCommand* actuator_command) {
+inline void Wrapper::unsafe_arena_set_allocated_actuator_command(::myproto::ActuatorCommand* actuator_command) {
   clear_payload();
   if (actuator_command) {
     set_has_actuator_command();
     _impl_.payload_.actuator_command_ = actuator_command;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Wrapper.actuator_command)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:myproto.Wrapper.actuator_command)
 }
-inline ::ActuatorCommand* Wrapper::_internal_mutable_actuator_command() {
+inline ::myproto::ActuatorCommand* Wrapper::_internal_mutable_actuator_command() {
   if (!_internal_has_actuator_command()) {
     clear_payload();
     set_has_actuator_command();
-    _impl_.payload_.actuator_command_ = CreateMaybeMessage< ::ActuatorCommand >(GetArenaForAllocation());
+    _impl_.payload_.actuator_command_ = CreateMaybeMessage< ::myproto::ActuatorCommand >(GetArenaForAllocation());
   }
   return _impl_.payload_.actuator_command_;
 }
-inline ::ActuatorCommand* Wrapper::mutable_actuator_command() {
-  ::ActuatorCommand* _msg = _internal_mutable_actuator_command();
-  // @@protoc_insertion_point(field_mutable:Wrapper.actuator_command)
+inline ::myproto::ActuatorCommand* Wrapper::mutable_actuator_command() {
+  ::myproto::ActuatorCommand* _msg = _internal_mutable_actuator_command();
+  // @@protoc_insertion_point(field_mutable:myproto.Wrapper.actuator_command)
   return _msg;
 }
 
@@ -1447,13 +1450,14 @@ inline Wrapper::PayloadCase Wrapper::payload_case() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace myproto
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::MessageType> : ::std::true_type {};
+template <> struct is_proto_enum< ::myproto::MessageType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::MessageType>() {
-  return ::MessageType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::myproto::MessageType>() {
+  return ::myproto::MessageType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

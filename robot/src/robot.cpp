@@ -13,23 +13,20 @@ int main() {
   try {
 	boost::asio::io_service io_service;
 
-	// SerialUDP serial_udp = SerialUDP(io_service, "/dev/ttyACM0", "127.0.0.1", 5000);
-	VideoStream video_stream = VideoStream(io_service, "127.0.0.1", 5001);
+	std::cout << "Starting robot..." << std::endl;
+
+	SerialUDP serial_udp = SerialUDP(io_service, "/dev/ttyS1", "127.0.0.1", 5001);
+	// VideoStream video_stream = VideoStream(io_service, "127.0.0.1", 5001);
+
+	serial_udp.start();
 
 	/*
-	boost::thread serial_udp_thread([&]() {
-		serial_udp.start();
-	});
-	*/
-
 	boost::thread video_stream_thread([&]() {
 		video_stream.start();
 	});
+	*/
 
-	io_service.run();
-
-	// serial_udp_thread.join();
-	video_stream_thread.join();
+	// video_stream_thread.join();
 	
   }
   catch (const std::exception& e) {

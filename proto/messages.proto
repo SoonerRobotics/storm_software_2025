@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package myproto;
+
 enum MessageType {
     UNKNOWN = 0;
     MOTOR_COMMAND = 1;
