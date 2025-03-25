@@ -5,6 +5,8 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <string>
+#include <google/protobuf/message.h>
+#include "messages.pb.h"
 
 class SerialUDP {
     public:
@@ -26,10 +28,16 @@ class SerialUDP {
         boost::asio::ip::udp::socket udp_socket;
         boost::asio::ip::udp::endpoint udp_endpoint;
         boost::asio::streambuf serial_buffer;
-        std::string udp_buffer;
+        std::array<char, 1024> udp_buffer;
 
         boost::thread serial_to_udp;
         boost::thread udp_to_serial;
+
+        MotorCommand motor_command_;
+        ArmCommand arm_command_;
+        IntakeCommand intake_command_;
+        ActuatorCommand actuator_command_;
+    
 };
 
 #endif // MESSAGES_HPP

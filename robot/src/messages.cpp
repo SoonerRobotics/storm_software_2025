@@ -52,12 +52,40 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
 void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
         std::string udp_data(udp_buffer.data(), bytes_transferred);
-        std::istringstream is(udp_data);
-        std::string message;
-        std::getline(is, message);
-        sendSerial(message);
-    } else {
-        std::cerr << "Error reading from UDP socket: " << error.message() << std::endl;
+
+        if (motor_command_.ParseFromString(udp_data)) {
+            std::cout << "Received MotorCommand message from UDP" << std::endl;
+            std::cout << "Left motor speed: " << motor_command_.left_motor_speed() << std::endl;
+            std::cout << "Right motor speed: " << motor_command_.right_motor_speed() << std::endl;
+            std::string serialized_data;
+            motor_command_.SerializeToString(&serialized_data);
+            sendSerial(serialized_data);
+        } 
+        else if (arm_command_.ParseFromString(udp_data)) {
+            std::cout << "Received ArmCommand message from UDP" << std::endl;
+            std::cout << "X Pos: " << arm_command_.x_dir() << std::endl;
+            std::cout << "Y Pos: " << arm_command_.y_dir() << std::endl;
+            std::string serialized_data;
+            arm_command_.SerializeToString(&serialized_data);
+            sendSerial(serialized_data);
+        } 
+        else if (intake_command_.ParseFromString(udp_data)) {
+            std::cout << "Received IntakeCommand message from UDP" << std::endl;
+            std::cout << "Intake speed: " << intake_command_.speed() << std::endl;
+            std::string serialized_data;
+            intake_command_.SerializeToString(&serialized_data);
+            sendSerial(serialized_data);
+        } 
+        else if (actuator_command_.ParseFromString(udp_data)) {
+            std::cout << "Received ActuatorCommand message from UDP" << std::endl;
+            std::cout << "Actuator ID: " << actuator_command_.id() << std::endl;
+            std::string serialized_data;
+            actuator_command_.SerializeToString(&serialized_data);
+            sendSerial(serialized_data);
+        } 
+        else {
+            std::cerr << "Error: Couldn't parse message from UDP" << std::endl;
+        }
     }
 }
 

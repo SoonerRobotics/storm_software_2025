@@ -5,3 +5,5 @@ pygame==2.6.1
 PyQt6==6.8.1
 PyQt6_sip==13.10.0
 paramiko==3.5.1
+dualsense-controller==0.3.1
+protobuf==6.30.1

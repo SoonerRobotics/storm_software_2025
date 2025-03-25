@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include "video.hpp"
 #include "messages.hpp"
+#include "messages.pb.h"
 
 using namespace std;
 

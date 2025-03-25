@@ -9,34 +9,96 @@ import numpy as np
 import os
 import time
 from PyQt6.QtCore import QThread, pyqtSignal
+from dualsense_controller import DualSenseController
+from google.protobuf.message import Message
 import modules.helpers as helpers
+import modules.messages_pb2 as messages_pb2
 
 class Controller(QThread):
-
-    MOTOR_COMMAND = 0x01
-    ARM_COMMAND = 0x02
-    ACTUATOR_COMMAND = 0x03
 
     controller_update = pyqtSignal(str)
     log_update = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
-        pygame.init()
-        pygame.joystick.init()
         self.name = 'Controller Thread'
-        self.joystick = None
+        device_infos = DualSenseController.enumerate_devices()
+        if len(device_infos) < 1:
+            self.log_update.emit(helpers.log('No DualSense Controller available.', self.name))
+        self.controller = DualSenseController()
+        self.controller.left_trigger.on_change(self.send_left_trigger_motor_command)
+        self.controller.right_trigger.on_change(self.send_right_trigger_motor_command)
+        self.controller.left_stick.on_change(self.send_stick_motor_command)
+        self.controller.right_stick.on_change(self.send_arm_command)
+        self.controller.activate()
+        self.log_update.emit(helpers.log('Controller connected.', self.name))
         self.running = True
 
-    def send(self, data):
+    def send_right_trigger_motor_command(self, trigger):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.MOTOR_COMMAND
+        motor_command = message.motor_command
+        motor_command.right_motor_speed = trigger
+        motor_command.left_motor_speed = trigger
+        serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(data.encode(), (helpers.HOST, helpers.MESSAGE_PORT))
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
+    def send_left_trigger_motor_command(self, trigger):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.MOTOR_COMMAND
+        motor_command = message.motor_command
+        motor_command.right_motor_speed = -trigger
+        motor_command.left_motor_speed = -trigger
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+    
+    def send_stick_motor_command(self, stick):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.MOTOR_COMMAND
+        motor_command = message.motor_command
+        motor_command.right_motor_speed = -stick.x
+        motor_command.left_motor_speed = stick.x
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+    
+    def send_arm_command(self, stick):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.ARM_COMMAND
+        arm_command = message.arm_command
+        arm_command.x_dir = stick.x
+        arm_command.y_dir = stick.y
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+
+    def send_intake_command(self, speed):
+        pass
+
+    def send_actuator_command(self, id):
+        pass
+
+    def on_error(self, error):
+        self.log_update.emit(helpers.log(f'Error: {error}', self.name))
+        stop()
+
     def controller_state(self):
-        if not self.joystick or not self.joystick.get_init():
+
+        if not self.controller:
             state = "Controller State: Disconnected\n"
             buttons = {
                 'A': 0,
@@ -72,34 +134,44 @@ class Controller(QThread):
         else:
             state = "Controller State: Connected\n"
             buttons = {
-                'A': self.joystick.get_button(0),
-                'B': self.joystick.get_button(1),
-                'X': self.joystick.get_button(2),
-                'Y': self.joystick.get_button(3),
+
+                'Cross': self.controller.btn_cross._get_value(),
+                'Square': self.controller.btn_square._get_value(),
+                'Triangle': self.controller.btn_triangle._get_value(),
+                'Circle': self.controller.btn_circle._get_value(),
+                
             }
 
             sticks = {
-                'Left': (self.joystick.get_axis(0), self.joystick.get_axis(1)),
-                'Right': (self.joystick.get_axis(2), self.joystick.get_axis(3))
+
+                'Left': (self.controller.left_stick_x._get_value(), self.controller.left_stick_y._get_value()),
+                'Right': (self.controller.right_stick_x._get_value(), self.controller.right_stick_y._get_value()),
+
             }
 
             dpad = {
-                'Up': self.joystick.get_button(10),
-                'Down': self.joystick.get_button(12),
-                'Left': self.joystick.get_button(11),
-                'Right': self.joystick.get_button(13)
+
+                'Up': self.controller.btn_up._get_value(),
+                'Down': self.controller.btn_down._get_value(),
+                'Left': self.controller.btn_left._get_value(),
+                'Right': self.controller.btn_right._get_value(),
+
             }
 
             triggers = {
-                'Left': self.joystick.get_axis(4),
-                'Right': self.joystick.get_axis(5)
+                
+                'Left': self.controller.left_trigger._get_value(),
+                'Right': self.controller.right_trigger._get_value()
+
             }
 
             misc = {
-                'Left Bumper': self.joystick.get_button(4),
-                'Right Bumper': self.joystick.get_button(5),
-                'Start': self.joystick.get_button(7),
-                'Select': self.joystick.get_button(6)
+
+                'Left Bumper': self.controller.btn_l1._get_value(),
+                'Right Bumper': self.controller.btn_r1._get_value(),
+                'Options': self.controller.btn_options._get_value(),
+                'Create': self.controller.btn_create._get_value(),
+
             }
 
         state += "\n"
@@ -116,68 +188,16 @@ class Controller(QThread):
 
         self.controller_update.emit(state)
     
-    # Unfinished
     def run(self):
         
-        self.log_update.emit(helpers.log(f'Thread initialized. Sending on port {helpers.MESSAGE_PORT}.', self.name))
-
-        while pygame.joystick.get_count() == 0:
-            if pygame.joystick.get_count() > 0:
-                self.joystick = pygame.joystick.Joystick(0)
-                self.joystick.init()
-                self.log_update.emit(helpers.log('Controller connected.', self.name))
-                self.controller_state()
-            else:
-                self.log_update.emit(helpers.log('No controller detected. Retrying (5s)...', self.name))
-                self.controller_state()
-                QThread.sleep(5)
-
-        if not self.joystick:
-            return
+        self.log_update.emit(helpers.log(f'Thread initialized. Sending on port {helpers.CONTROLLER_PORT}.', self.name))
 
         while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    break
-                else:
-                    if event.axis == 1:
-                        if (abs(controller.get_axis(0)) > 0.25):
-                            right_motor = (-controller.get_axis(0) * 255) * TURN_PERCENTAGE
-                            left_motor = (controller.get_axis(0) * 255) * TURN_PERCENTAGE
-                            packet = MOTORS.to_bytes(1,'little')
-                            packet = packet + bytearray(struct.pack("<f",right_motor)) + bytearray(struct.pack("<f",left_motor))
-                            self.send(packet)
-                        else:
-                            packet = MOTORS.to_bytes(1, "little")
-                            packet = packet + bytearray(struct.pack("<f",0.0)) + bytearray(struct.pack("<f", 0.0))
-                            self.send(packet)
-                    elif event.axis == 2:
-                        right_y = (-controller.get_axis(3)) * 255
-                        right_x = controller.get_axis(2) * 255
-                        packet = ARM.to_bytes(1,'little')
-                        packet = packet + bytearray(struct.pack("<f",right_x)) + bytearray(struct.pack("<f",right_y))
-                        self.send(packet)
-                    elif event.axis == 4:
-                        left_trig = controller.get_axis(4)
-                        left_trig = -((left_trig + 1) / 2)
-                        right_motor = (left_trig * 255) * SPEED_PERCENTAGE
-                        left_motor = (left_trig * 255) * SPEED_PERCENTAGE
-                        packet = MOTORS.to_bytes(1,'little')
-                        packet = packet + bytearray(struct.pack("<f",right_motor)) + bytearray(struct.pack("<f",left_motor))
-                        self.send(packet)
-                    elif event.axis == 5:
-                        right_trig = controller.get_axis(5)
-                        right_trig = (right_trig + 1) / 2
-                        right_motor = (right_trig * 255) * SPEED_PERCENTAGE
-                        left_motor = (right_trig * 255) * SPEED_PERCENTAGE
-                        packet = MOTORS.to_bytes(1,"little")
-                        packet = packet + bytearray(struct.pack("<f",right_motor)) + bytearray(struct.pack("<f",left_motor))
-                        self.send(packet)
 
-                    self.controller_state()
-        
-        pygame.quit()
+            QThread.msleep(1)
+            self.controller_state()
+
+        controller.deactivate()
 
     def stop(self):
         self.running = False

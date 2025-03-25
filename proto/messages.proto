@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+enum MessageType {
+    UNKNOWN = 0;
+    MOTOR_COMMAND = 1;
+    ARM_COMMAND = 2;
+    INTAKE_COMMAND = 3;
+    ACTUATOR_COMMAND = 4;
+}
+
+message MotorCommand {
+    float left_motor_speed = 1;
+    float right_motor_speed = 2;
+}
+
+message ArmCommand {
+    float x_dir = 1;
+    float y_dir = 2;
+}
+
+message IntakeCommand {
+    float speed = 1;
+}
+
+message ActuatorCommand {
+    int32 id = 1;
+}
+
+message Wrapper {
+    MessageType type = 1;
+    oneof payload {
+        MotorCommand motor_command = 2;
+        ArmCommand arm_command = 3;
+        IntakeCommand intake_command = 4;
+        ActuatorCommand actuator_command = 5;
+    }
+}
