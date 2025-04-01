@@ -15,6 +15,11 @@ void VideoStream::start() {
         std::cerr << "Error: Couldn't open video capture!" << std::endl;
         return;
     }
+    
+    double width = 640;
+    double height = 480;
+    cap.set(cv::CAP_PROP_FRAME_WIDTH, width);
+    cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);
 
     while (true) {
         cv::Mat frame;
@@ -25,12 +30,14 @@ void VideoStream::start() {
         }
 
         std::vector<uchar> frame_data;
-        cv::imencode(".jpg", frame, frame_data); 
-
+	std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80, cv::IMWRITE_JPEG_OPTIMIZE, 1};
+        cv::imencode(".jpg", frame, frame_data, params);
+	frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
         
         try {
             socket.send_to(buffer, udp_endpoint);
+	    std::cout << "Sent frame." << std::endl;
         }
         catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
