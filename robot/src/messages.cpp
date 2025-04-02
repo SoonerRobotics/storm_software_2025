@@ -106,8 +106,8 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     packet.push_back(4);
                     uint8_t buffer[sizeof(float)];
                     float actuator = static_cast<float>(wrapper.actuator_command().id());
-                    std::memcpy(buffer, &actuator, sizeof(uint32_t));
-                    packet.insert(packet.end(), buffer, buffer + sizeof(uint32_t));
+                    std::memcpy(buffer, &actuator, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
                     float pad = 0.0;
                     std::memcpy(buffer, &pad, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
