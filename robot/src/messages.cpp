@@ -61,17 +61,15 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
 
             switch (wrapper.type()) {
                 case myproto::MOTOR_COMMAND: {
-                    const auto& motor_command = wrapper.motor_command();
-                    uint8_t identifier = static_cast<uint8_t>(myproto::MOTOR_COMMAND);
-                    float left_speed = motor_command.left_motor_speed();
-                    float right_speed = motor_command.right_motor_speed();
-                    std::vector<uint8_t> serialized_data;
-                    serialized_data.push_back(identifier);
-                    const uint8_t* left_speed_bytes = reinterpret_cast<const uint8_t*>(&left_speed);
-                    serialized_data.insert(serialized_data.end(), left_speed_bytes, left_speed_bytes + sizeof(float));
-                    const uint8_t* right_speed_bytes = reinterpret_cast<const uint8_t*>(&right_speed);
-                    serialized_data.insert(serialized_data.end(), right_speed_bytes, right_speed_bytes + sizeof(float));
-                    sendSerial(std::string(serialized_data.begin(), serialized_data.end()));
+                    std::vector<uint8_t> packet;
+                    packet.push_back(1);
+                    uint8_t buffer[sizeof(float)];
+                    std::memcpy(buffer, &wrapper.motor_command().right_motor_speed(), sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    std::memcpy(buffer, &wrapper.motor_command().left_motor_speed(), sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    std::cout << "Sending motor command: " << wrapper.motor_command().right_motor_speed() << ", " << wrapper.motor_command().left_motor_speed() << std::endl;
+                    sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
                 case myproto::ARM_COMMAND: {
