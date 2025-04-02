@@ -4,6 +4,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <google/protobuf/message.h>
+#include <gpiod.h>
 
 SerialUDP::SerialUDP(boost::asio::io_service& io_service, const std::string& port, const std::string& udp_host, unsigned short udp_port)
     : io_service(io_service),
@@ -61,9 +62,16 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
             switch (wrapper.type()) {
                 case myproto::MOTOR_COMMAND: {
                     const auto& motor_command = wrapper.motor_command();
-                    std::string serialized_data;
-                    wrapper.SerializeToString(&serialized_data);
-                    sendSerial(serialized_data);
+                    uint8_t identifier = static_cast<uint8_t>(myproto::MOTOR_COMMAND);
+                    float left_speed = motor_command.left_motor_speed();
+                    float right_speed = motor_command.right_motor_speed();
+                    std::vector<uint8_t> serialized_data;
+                    serialized_data.push_back(identifier);
+                    const uint8_t* left_speed_bytes = reinterpret_cast<const uint8_t*>(&left_speed);
+                    serialized_data.insert(serialized_data.end(), left_speed_bytes, left_speed_bytes + sizeof(float));
+                    const uint8_t* right_speed_bytes = reinterpret_cast<const uint8_t*>(&right_speed);
+                    serialized_data.insert(serialized_data.end(), right_speed_bytes, right_speed_bytes + sizeof(float));
+                    sendSerial(std::string(serialized_data.begin(), serialized_data.end()));
                     break;
                 }
                 case myproto::ARM_COMMAND: {
