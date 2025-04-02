@@ -18,7 +18,7 @@ int main() {
 	SerialUDP serial_udp = SerialUDP(io_service, "/dev/ttyUSB0", "0.0.0.0", 5001);
 	VideoStream video_stream = VideoStream(io_service, "192.168.1.66", 5000);
 
-	boost::thread serial_thread([&]() {
+	boost::thread serial_udp_thread([&]() {
 		serial_udp.start();
 	});
 
