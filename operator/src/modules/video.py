@@ -1,10 +1,6 @@
 import cv2
-import sys
 import socket
 import numpy as np
-import os
-import time
-import pickle
 from PyQt6.QtCore import QThread, pyqtSignal
 import modules.helpers as helpers
 
