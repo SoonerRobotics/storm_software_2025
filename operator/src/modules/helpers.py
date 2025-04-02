@@ -1,7 +1,7 @@
 import logging
 import time
 
-HOST = '127.0.0.1' # Robot's IP
+HOST = '192.168.1.128' # Robot's IP
 VIDEO_PORT = 5000
 CONTROLLER_PORT = 5001
 MESSAGE_PORT = 5002
@@ -36,6 +36,8 @@ DARK_THEME = """
             background-color: #555555;
         }
     """
+
+CONTROLLER_DEADZONE = 0.2
 
 def log_config():
     sys.path.insert(0, '/home/braden/storm_software_2025/') # Swap this with your own path.

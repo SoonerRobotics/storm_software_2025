@@ -41,11 +41,12 @@ class Controller(QThread):
         motor_command.right_motor_speed = trigger
         motor_command.left_motor_speed = trigger
         serialized = message.SerializeToString()
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-        except Exception as e:
-            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        if trigger > helpers.CONTROLLER_DEADZONE:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                    sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+            except Exception as e:
+                self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def send_left_trigger_motor_command(self, trigger):
         message = messages_pb2.Wrapper()
@@ -54,11 +55,12 @@ class Controller(QThread):
         motor_command.right_motor_speed = -trigger
         motor_command.left_motor_speed = -trigger
         serialized = message.SerializeToString()
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-        except Exception as e:
-            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        if trigger > helpers.CONTROLLER_DEADZONE:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                    sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+            except Exception as e:
+                self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
     
     def send_stick_motor_command(self, stick):
         message = messages_pb2.Wrapper()
@@ -67,11 +69,12 @@ class Controller(QThread):
         motor_command.right_motor_speed = -stick.x
         motor_command.left_motor_speed = stick.x
         serialized = message.SerializeToString()
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-        except Exception as e:
-            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        if abs(stick.x) > helpers.CONTROLLER_DEADZONE:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                    sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+            except Exception as e:
+                self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
     
     def send_arm_command(self, stick):
         message = messages_pb2.Wrapper()
@@ -80,11 +83,12 @@ class Controller(QThread):
         arm_command.x_dir = stick.x
         arm_command.y_dir = stick.y
         serialized = message.SerializeToString()
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-        except Exception as e:
-            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        if abs(stick.x) > helpers.CONTROLLER_DEADZONE and abs(stick.y) > helpers.CONTROLLER_DEADZONE:
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                    sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+            except Exception as e:
+                self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def send_intake_command(self, speed):
         pass
