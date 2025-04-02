@@ -75,24 +75,45 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     break;
                 }
                 case myproto::ARM_COMMAND: {
-                    const auto& arm_command = wrapper.arm_command();
-                    std::string serialized_data;
-                    wrapper.SerializeToString(&serialized_data);
-                    sendSerial(serialized_data);
+                    std::vector<uint8_t> packet;
+                    packet.push_back(2);
+                    uint8_t buffer[sizeof(float)];
+                    float back_servo_angle = wrapper.arm_command().x_dir();
+                    std::memcpy(buffer, &back_servo_angle, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    float front_servo_angle = wrapper.arm_command().y_dir();
+                    std::memcpy(buffer, &front_servo_angle, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    std::cout << "Sending arm command: " << back_servo_angle << ", " << front_servo_angle << std::endl;
+                    sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
                 case myproto::INTAKE_COMMAND: {
-                    const auto& intake_command = wrapper.intake_command();
-                    std::string serialized_data;
-                    wrapper.SerializeToString(&serialized_data);
-                    sendSerial(serialized_data);
+                    std::vector<uint8_t> packet;
+                    packet.push_back(3);
+                    uint8_t buffer[sizeof(float)];
+                    float intake_speed = wrapper.intake_command().intake_speed();
+                    std::memcpy(buffer, &intake_speed, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    float pad = 0.0;
+                    std::memcpy(buffer, &pad, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    std::cout << "Sending intake command: " << intake_speed << std::endl;
+                    sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
                 case myproto::ACTUATOR_COMMAND: {
-                    const auto& actuator_command = wrapper.actuator_command();
-                    std::string serialized_data;
-                    wrapper.SerializeToString(&serialized_data);
-                    sendSerial(serialized_data);
+                    std::vector<uint8_t> packet;
+                    packet.push_back(4);
+                    uint8_t buffer[sizeof(float)];
+                    uint32_t actuator = wrapper.actuator_command().id();
+                    std::memcpy(buffer, &actuator, sizeof(uint32_t));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(uint32_t));
+                    float pad = 0.0;
+                    std::memcpy(buffer, &pad, sizeof(float));
+                    packet.insert(packet.end(), buffer, buffer + sizeof(float));
+                    std::cout << "Sending actuator command: " << actuator << std::endl;
+                    sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
                 default:
