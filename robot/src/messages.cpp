@@ -92,7 +92,7 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     std::vector<uint8_t> packet;
                     packet.push_back(3);
                     uint8_t buffer[sizeof(float)];
-                    float intake_speed = wrapper.intake_command().intake_speed();
+                    float intake_speed = wrapper.intake_command().speed();
                     std::memcpy(buffer, &intake_speed, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
                     float pad = 0.0;
