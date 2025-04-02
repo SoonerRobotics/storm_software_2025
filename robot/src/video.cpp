@@ -37,7 +37,6 @@ void VideoStream::start() {
         
         try {
             socket.send_to(buffer, udp_endpoint);
-	    std::cout << "Sent frame." << std::endl;
         }
         catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
