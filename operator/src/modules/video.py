@@ -15,7 +15,7 @@ class VideoReceiver(QThread):
     def __init__(self):
         super().__init__()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.client_socket.bind((helpers.HOST, helpers.VIDEO_PORT))
+        self.client_socket.bind(('', helpers.VIDEO_PORT))
         self.name = 'Video Thread'
         self.running = True
 
@@ -24,7 +24,7 @@ class VideoReceiver(QThread):
         try:
             while self.running:
                 data, addr = self.client_socket.recvfrom(65536)
-                frame_data = pickle.loads(data)
+                frame_data = np.frombuffer(data, dtype=np.uint8)
                 frame = cv2.imdecode(frame_data, cv2.IMREAD_COLOR)
                 self.image_received.emit(frame)
         except Exception as e:

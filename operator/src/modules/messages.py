@@ -11,7 +11,7 @@ class RobotMessages(QThread):
     def __init__(self):
         super().__init__()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.client_socket.bind((helpers.HOST, helpers.MESSAGE_PORT))
+        self.client_socket.bind(('', helpers.MESSAGE_PORT))
         self.right_sonar = 0
         self.left_sonar = 0
         self.back_sonar = 0

@@ -30,6 +30,10 @@ class Controller(QThread):
         self.controller.right_trigger.on_change(self.send_right_trigger_motor_command)
         self.controller.left_stick.on_change(self.send_stick_motor_command)
         self.controller.right_stick.on_change(self.send_arm_command)
+        self.controller.btn_cross.on_down(self.send_intake_command_off)
+        self.controller.btn_square.on_down(self.send_intake_command_slow)
+        self.controller.btn_triangle.on_down(self.send_intake_command_fast)
+        self.controller.btn_circle.on_down(self.send_actuator_command)
         self.controller.activate()
         self.log_update.emit(helpers.log('Controller connected.', self.name))
         self.running = True
@@ -83,18 +87,60 @@ class Controller(QThread):
         arm_command.x_dir = stick.x
         arm_command.y_dir = stick.y
         serialized = message.SerializeToString()
-        if abs(stick.x) > helpers.CONTROLLER_DEADZONE and abs(stick.y) > helpers.CONTROLLER_DEADZONE:
+        if abs(stick.x) > helpers.CONTROLLER_DEADZONE or abs(stick.y) > helpers.CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
             except Exception as e:
                 self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
-    def send_intake_command(self, speed):
-        pass
+    def send_intake_command_off(self):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.INTAKE_COMMAND
+        intake_command = message.intake_command
+        intake_command.speed = 0.0
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+
+    def send_intake_command_slow(self):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.INTAKE_COMMAND
+        intake_command = message.intake_command
+        intake_command.speed = 0.5
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+
+    def send_intake_command_fast(self):
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.INTAKE_COMMAND
+        intake_command = message.intake_command
+        intake_command.speed = 1.0
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def send_actuator_command(self, id):
-        pass
+        message = messages_pb2.Wrapper()
+        message.type = messages_pb2.ACTUATOR_COMMAND
+        actuator_command = message.actuator_command
+        actuator_command.id = 1
+        serialized = message.SerializeToString()
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def on_error(self, error):
         self.log_update.emit(helpers.log(f'Error: {error}', self.name))

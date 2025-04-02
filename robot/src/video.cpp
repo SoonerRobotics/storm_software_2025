@@ -30,9 +30,9 @@ void VideoStream::start() {
         }
 
         std::vector<uchar> frame_data;
-	std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80, cv::IMWRITE_JPEG_OPTIMIZE, 1};
+	    std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80, cv::IMWRITE_JPEG_OPTIMIZE, 1};
         cv::imencode(".jpg", frame, frame_data, params);
-	frame_data.resize(frame_data.size(), 0);
+	    frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
         
         try {

@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
         self.scr_image.setFixedSize(200, 109)
         self.scr_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        pixmap = QPixmap("/home/braden/storm_software_2025/operator/assets/SCR_Gear_23_Wide_White_on_Transparent.png")
+        pixmap = QPixmap("C:\\Users\\brade\\Documents\\storm_software_2025\\operator\\assets\\SCR_Gear_23_Wide_White_on_Transparent.png")
         self.scr_image.setPixmap(pixmap)
         self.scr_image.setScaledContents(True)
 
@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         self.storm_image.setFixedSize(191, 165)
         self.storm_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        pixmap = QPixmap("/home/braden/storm_software_2025/operator/assets/STORMLogo.png")
+        pixmap = QPixmap("C:\\Users\\brade\\Documents\\storm_software_2025\\operator\\assets\\STORMLogo.png")
         self.storm_image.setPixmap(pixmap)
         self.storm_image.setScaledContents(True)
 
@@ -154,8 +154,10 @@ class MainWindow(QMainWindow):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         h, w, ch = frame.shape
         bytes_per_line = ch * w
-        qImg = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        self.video_panel.setPixmap(QPixmap.fromImage(qImg))
+        qImg = QImage(frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+        pixmap = QPixmap.fromImage(qImg)
+        stretched_pixmap = pixmap.scaled(self.video_panel.size(), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.video_panel.setPixmap(stretched_pixmap)
 
     def update_robot(self, state):
         self.robot_state.setText(state)

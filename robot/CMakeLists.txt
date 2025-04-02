@@ -6,14 +6,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(OpenCV REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system thread)
-find_package(Protobuf REQUIRED)
+# Windows
+set(OpenCV_DIR C:/lib/build_opencv)
+set(Protobuf_DIR C:/protobuf-30.1/protobuf-30.1/cmake)
+set(Boost_DIR C:/boost/boost_1_60_0)
 
 include_directories(${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} include)
 
 set(PROTO_FILE "../proto/messages.proto")
-protobuf_generate_cpp(PROTO_SRC PROTO_HEADER ${PROTO_FILE})
+# protobuf_generate_cpp(PROTO_SRC PROTO_HEADER ${PROTO_FILE})
 
 set(SOURCE_FILES
     src/robot.cpp

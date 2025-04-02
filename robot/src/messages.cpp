@@ -13,7 +13,7 @@ SerialUDP::SerialUDP(boost::asio::io_service& io_service, const std::string& por
       udp_endpoint(boost::asio::ip::address::from_string(udp_host), udp_port),
       stop_threads(false) {
 
-    serial_port.set_option(boost::asio::serial_port_base::baud_rate(9600));
+    serial_port.set_option(boost::asio::serial_port_base::baud_rate(115200));
     serial_port.set_option(boost::asio::serial_port_base::character_size(8));
     serial_port.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
     serial_port.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
