@@ -69,7 +69,6 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     float left_motor_speed = wrapper.motor_command().left_motor_speed();
                     std::memcpy(buffer, &left_motor_speed, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::cout << "Sending motor command: " << right_motor_speed << ", " << left_motor_speed << std::endl;
                     sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
@@ -83,7 +82,6 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     float front_servo_angle = wrapper.arm_command().y_dir();
                     std::memcpy(buffer, &front_servo_angle, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::cout << "Sending arm command: " << back_servo_angle << ", " << front_servo_angle << std::endl;
                     sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
@@ -97,7 +95,6 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     float pad = 0.0;
                     std::memcpy(buffer, &pad, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::cout << "Sending intake command: " << intake_speed << std::endl;
                     sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
@@ -111,7 +108,6 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     float pad = 0.0;
                     std::memcpy(buffer, &pad, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::cout << "Sending actuator command: " << actuator << std::endl;
                     sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
