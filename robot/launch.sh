@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 cleanup() {
     echo "Cleaning up..."
     if [[ "$(basename $(pwd))" == "build" ]]; then
@@ -11,6 +13,7 @@ cleanup() {
 
 build_project() {
     echo "Building the project..."
+    
     mkdir -p build
 
     cd build || { echo "Failed to navigate to build directory"; cleanup; exit 1; }
@@ -24,6 +27,9 @@ build_project() {
 
 run_executable() {
     echo "Running the executable..."
+
+    cd build || { echo "Failed to navigate to build directory"; cleanup; exit 1; }
+    
     ./robot || { echo "Failed to run the executable"; cleanup; exit 1; }
 }
 
