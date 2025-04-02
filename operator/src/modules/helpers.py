@@ -5,8 +5,8 @@ HOST = '192.168.1.128' # Robot's IP
 VIDEO_PORT = 5000
 CONTROLLER_PORT = 5001
 MESSAGE_PORT = 5002
-USERNAME = 'braden'
-PASSWORD = '6242002'
+USERNAME = 'scr'
+PASSWORD = 'scr'
 DARK_THEME = """
         QWidget {
             background-color: #2b2b2b;

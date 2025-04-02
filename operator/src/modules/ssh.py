@@ -23,7 +23,7 @@ class SSHTerminal(QThread):
         try:
             self.ssh.connect(self.host, username=self.username, password=self.password, look_for_keys=False)
             self.log_update.emit(helpers.log(f'Connected to {self.host}.', self.name))
-            stdin, stdout, stderr = self.ssh.exec_command(self.command)
+            # stdin, stdout, stderr = self.ssh.exec_command(self.command)
             while self.running:
                 output = stdout.readline()
                 if output:

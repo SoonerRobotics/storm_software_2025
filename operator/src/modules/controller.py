@@ -1,13 +1,5 @@
-import os
-
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
-
-import pygame
-import sys
 import socket
 import numpy as np
-import os
-import time
 from PyQt6.QtCore import QThread, pyqtSignal
 from dualsense_controller import DualSenseController
 from google.protobuf.message import Message
@@ -130,7 +122,7 @@ class Controller(QThread):
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
-    def send_actuator_command(self, id):
+    def send_actuator_command(self):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.ACTUATOR_COMMAND
         actuator_command = message.actuator_command
