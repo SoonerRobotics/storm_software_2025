@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # Linux
 find_package(OpenCV REQUIRED)
 find_package(Protobuf REQUIRED)
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system thread)
 
 include_directories(${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} include)
 
