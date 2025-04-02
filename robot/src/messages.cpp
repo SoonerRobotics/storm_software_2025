@@ -64,11 +64,11 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     std::vector<uint8_t> packet;
                     packet.push_back(1);
                     uint8_t buffer[sizeof(float)];
-                    std::memcpy(buffer, &wrapper.motor_command().right_motor_speed(), sizeof(float));
+                    std::memcpy(buffer, wrapper.motor_command().right_motor_speed, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::memcpy(buffer, &wrapper.motor_command().left_motor_speed(), sizeof(float));
+                    std::memcpy(buffer, wrapper.motor_command().left_motor_speed, sizeof(float));
                     packet.insert(packet.end(), buffer, buffer + sizeof(float));
-                    std::cout << "Sending motor command: " << wrapper.motor_command().right_motor_speed() << ", " << wrapper.motor_command().left_motor_speed() << std::endl;
+                    std::cout << "Sending motor command: " << wrapper.motor_command().right_motor_speed << ", " << wrapper.motor_command().left_motor_speed << std::endl;
                     sendSerial(std::string(packet.begin(), packet.end()));
                     break;
                 }
