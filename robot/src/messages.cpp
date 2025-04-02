@@ -4,7 +4,6 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <google/protobuf/message.h>
-#include <gpiod.h>
 
 SerialUDP::SerialUDP(boost::asio::io_service& io_service, const std::string& port, const std::string& udp_host, unsigned short udp_port)
     : io_service(io_service),
@@ -57,7 +56,7 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
         myproto::Wrapper wrapper;
 
         if (wrapper.ParseFromString(udp_data)) {
-            std::cout << "Received message of type: " << wrapper.type() << std::endl;
+            // std::cout << "Received message of type: " << wrapper.type() << std::endl;
 
             switch (wrapper.type()) {
                 case myproto::MOTOR_COMMAND: {
@@ -106,7 +105,7 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
                     std::vector<uint8_t> packet;
                     packet.push_back(4);
                     uint8_t buffer[sizeof(float)];
-                    uint32_t actuator = wrapper.actuator_command().id();
+                    float actuator = static_cast<float>(wrapper.actuator_command().id());
                     std::memcpy(buffer, &actuator, sizeof(uint32_t));
                     packet.insert(packet.end(), buffer, buffer + sizeof(uint32_t));
                     float pad = 0.0;
@@ -145,7 +144,7 @@ void SerialUDP::sendUDP(const std::string& message) {
 
 void SerialUDP::handleSerialWrite(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
-        std::cout << "Data successfully sent over serial. Bytes transferred: " << bytes_transferred << std::endl;
+        // std::cout << "Data successfully sent over serial. Bytes transferred: " << bytes_transferred << std::endl;
     }
     else {
         std::cerr << "Error writing to serial port: " << error.message() << std::endl;
@@ -154,7 +153,7 @@ void SerialUDP::handleSerialWrite(const boost::system::error_code& error, size_t
 
 void SerialUDP::handleUDPWrite(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
-        std::cout << "Data successfully sent over UDP. Bytes transferred: " << bytes_transferred << std::endl;
+        // std::cout << "Data successfully sent over UDP. Bytes transferred: " << bytes_transferred << std::endl;
     } 
     else {
         std::cerr << "Error sending data over UDP: " << error.message() << std::endl;
