@@ -18,10 +18,6 @@ class Controller(QThread):
         if len(device_infos) < 1:
             self.log_update.emit(helpers.log('No DualSense Controller available.', self.name))
         self.controller = DualSenseController()
-        self.controller.left_trigger.on_change(self.send_left_trigger_motor_command)
-        self.controller.right_trigger.on_change(self.send_right_trigger_motor_command)
-        self.controller.left_stick.on_change(self.send_stick_motor_command)
-        self.controller.right_stick.on_change(self.send_arm_command)
         self.controller.btn_cross.on_down(self.send_intake_command_off)
         self.controller.btn_square.on_down(self.send_intake_command_slow)
         self.controller.btn_triangle.on_down(self.send_intake_command_fast)
@@ -30,55 +26,64 @@ class Controller(QThread):
         self.log_update.emit(helpers.log('Controller connected.', self.name))
         self.running = True
 
-    def send_right_trigger_motor_command(self, trigger):
+    def send_right_trigger_motor_command(self):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = trigger
-        motor_command.left_motor_speed = trigger
+        motor_command.right_motor_speed = self.controller.right_trigger._get_value()
+        motor_command.left_motor_speed = self.controller.right_trigger._get_value()
         serialized = message.SerializeToString()
-        if trigger > helpers.CONTROLLER_DEADZONE:
+        if self.controller.right_trigger._get_value() > helpers.CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+                    return 1
             except Exception as e:
                 self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        else:
+            return 0
 
-    def send_left_trigger_motor_command(self, trigger):
+    def send_left_trigger_motor_command(self):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = -trigger
-        motor_command.left_motor_speed = -trigger
+        motor_command.right_motor_speed = -self.controller.left_trigger._get_value()
+        motor_command.left_motor_speed = -self.controller.left_trigger._get_value()
         serialized = message.SerializeToString()
-        if trigger > helpers.CONTROLLER_DEADZONE:
+        if self.controller.left_trigger._get_value() > helpers.CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+                    return 1
             except Exception as e:
                 self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        else:
+            return 0
     
-    def send_stick_motor_command(self, stick):
+    def send_stick_motor_command(self):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = stick.x
-        motor_command.left_motor_speed = -stick.x
+        motor_command.right_motor_speed = self.controller.left_stick_x._get_value()
+        motor_command.left_motor_speed = -self.controller.left_stick_x._get_value()
         serialized = message.SerializeToString()
-        if abs(stick.x) > helpers.CONTROLLER_DEADZONE:
+        if abs(self.controller.left_stick_x._get_value()) > helpers.CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+                    return 1
             except Exception as e:
                 self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        else:
+            return 0
     
-    def send_arm_command(self, stick):
+    def send_arm_command(self):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.ARM_COMMAND
         arm_command = message.arm_command
-        arm_command.x_dir = stick.x
-        arm_command.y_dir = stick.y
-        if abs(stick.x) > abs(stick.y):
+        arm_command.x_dir = self.controller.right_stick_x._get_value()
+        arm_command.y_dir = self.controller.right_stick_y._get_value()
+        if abs(self.controller.right_stick_x._get_value()) > abs(self.controller.right_stick_y._get_value()):
             arm_command.y_dir = 0.0
         else:
             arm_command.x_dir = 0.0
@@ -237,9 +242,35 @@ class Controller(QThread):
         
         self.log_update.emit(helpers.log(f'Thread initialized. Sending on port {helpers.CONTROLLER_PORT}.', self.name))
 
+        left_trig = 0
+        right_trig = 0
+        left_stick = 0
+
         while self.running:
 
-            QThread.msleep(1)
+            left_trig = self.send_left_trigger_motor_command()
+            right_trig = self.send_right_trigger_motor_command()
+            left_stick = self.send_stick_motor_command()
+
+            if left_trig == 0 and right_trig == 0 and left_stick == 0:
+                try:
+                    message = messages_pb2.Wrapper()
+                    message.type = messages_pb2.MOTOR_COMMAND
+                    motor_command = message.motor_command
+                    motor_command.right_motor_speed = 0.0
+                    motor_command.left_motor_speed = 0.0
+                    serialized = message.SerializeToString()
+                    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                        sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+                except Exception as e:
+                    self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+            
+            left_trig = 0
+            right_trig = 0
+            left_stick = 0
+
+            self.send_arm_command()
+
             self.controller_state()
 
         controller.deactivate()
