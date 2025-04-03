@@ -39,14 +39,47 @@ void SerialUDP::readUDP() {
 void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t bytes_transferred) {
     if (!error) {
         std::istream is(&serial_buffer);
-        std::string message;
-        std::getline(is, message);
-        sendUDP(message); 
+        std::string received_data;
+        std::getline(is, received_data);
+
+        received_data.erase(std::remove(received_data.begin(), received_data.end(), '\r'), received_data.end());
+
+        if (received_data.empty()) {
+            readSerial();
+            return;
+        }
+
+        if (received_data.size() > 1) {
+            uint8_t id = received_data[0];
+            std::string distance_str = received_data.substr(1);
+
+            switch (id) {
+                case 1: {
+                    if (received_data.size() >= 3) {
+                        char id = static_cast<char>(received_data[1]);
+                        uint8_t distance = received_data[2];
+                        sendUDP(received_data);
+                    }
+                    break;
+                }
+                case 2: {
+                    if (received_data.size() >= 3) {
+                        uint16_t ir_value = (received_data[1] << 8) | received_data[2];
+                        sendUDP(received_data);
+                    }
+                }
+            }
+        }
+        else {
+            std::cerr << "Error: Invalid data format from serial port" << std::endl;
+        }
     } 
     else {
         std::cerr << "Error reading from serial port: " << error.message() << std::endl;
     }
+
     readSerial();
+
 }
 
 void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t bytes_transferred) {
@@ -56,7 +89,6 @@ void SerialUDP::handleUDPRead(const boost::system::error_code& error, size_t byt
         myproto::Wrapper wrapper;
 
         if (wrapper.ParseFromString(udp_data)) {
-            // std::cout << "Received message of type: " << wrapper.type() << std::endl;
 
             switch (wrapper.type()) {
                 case myproto::MOTOR_COMMAND: {
@@ -139,19 +171,13 @@ void SerialUDP::sendUDP(const std::string& message) {
 }
 
 void SerialUDP::handleSerialWrite(const boost::system::error_code& error, size_t bytes_transferred) {
-    if (!error) {
-        // std::cout << "Data successfully sent over serial. Bytes transferred: " << bytes_transferred << std::endl;
-    }
-    else {
+    if (error) {
         std::cerr << "Error writing to serial port: " << error.message() << std::endl;
     }
 }
 
 void SerialUDP::handleUDPWrite(const boost::system::error_code& error, size_t bytes_transferred) {
-    if (!error) {
-        // std::cout << "Data successfully sent over UDP. Bytes transferred: " << bytes_transferred << std::endl;
-    } 
-    else {
+    if (error) {
         std::cerr << "Error sending data over UDP: " << error.message() << std::endl;
-    }
+    } 
 }
