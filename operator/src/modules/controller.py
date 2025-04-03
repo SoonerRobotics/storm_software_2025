@@ -110,7 +110,7 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.INTAKE_COMMAND
         intake_command = message.intake_command
-        intake_command.speed = 0.5
+        intake_command.speed = -0.5
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -122,7 +122,7 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.INTAKE_COMMAND
         intake_command = message.intake_command
-        intake_command.speed = 1.0
+        intake_command.speed = -1.0
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
