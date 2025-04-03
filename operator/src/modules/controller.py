@@ -62,8 +62,8 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = -stick.x
-        motor_command.left_motor_speed = stick.x
+        motor_command.right_motor_speed = stick.x
+        motor_command.left_motor_speed = -stick.x
         serialized = message.SerializeToString()
         if abs(stick.x) > helpers.CONTROLLER_DEADZONE:
             try:
@@ -78,13 +78,16 @@ class Controller(QThread):
         arm_command = message.arm_command
         arm_command.x_dir = stick.x
         arm_command.y_dir = stick.y
+        if abs(stick.x) > abs(stick.y):
+            arm_command.y_dir = 0.0
+        else:
+            arm_command.x_dir = 0.0
         serialized = message.SerializeToString()
-        if abs(stick.x) > helpers.CONTROLLER_DEADZONE or abs(stick.y) > helpers.CONTROLLER_DEADZONE:
-            try:
-                with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                    sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-            except Exception as e:
-                self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
+        except Exception as e:
+            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
 
     def send_intake_command_off(self):
         message = messages_pb2.Wrapper()
