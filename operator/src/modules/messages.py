@@ -5,6 +5,7 @@ from PyQt6.QtCore import QThread, pyqtSignal
 import modules.helpers as helpers
 
 class RobotMessages(QThread):
+    
     robot_update = pyqtSignal(str)
     log_update = pyqtSignal(str)
 

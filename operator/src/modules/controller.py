@@ -36,6 +36,7 @@ class Controller(QThread):
         motor_command.left_motor_speed = float(self.controller.right_trigger._get_value())
         serialized = message.SerializeToString()
         if float(self.controller.right_trigger._get_value()) > CONTROLLER_DEADZONE:
+            self.controller.lightbar.set_color_red()
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
@@ -53,6 +54,7 @@ class Controller(QThread):
         motor_command.left_motor_speed = float(-self.controller.left_trigger._get_value())
         serialized = message.SerializeToString()
         if float(self.controller.left_trigger._get_value()) > CONTROLLER_DEADZONE:
+            self.controller.lightbar.set_color_red()
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
@@ -70,6 +72,7 @@ class Controller(QThread):
         motor_command.left_motor_speed = float(-self.controller.left_stick_x._get_value())
         serialized = message.SerializeToString()
         if abs(float(self.controller.left_stick_x._get_value())) > CONTROLLER_DEADZONE:
+            self.controller.lightbar.set_color_red()
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
@@ -92,6 +95,7 @@ class Controller(QThread):
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                self.controller.lightbar.set_color_green()
                 sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
@@ -104,6 +108,7 @@ class Controller(QThread):
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                self.controller.lightbar.set_color_blue()
                 sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
@@ -116,6 +121,7 @@ class Controller(QThread):
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                self.controller.lightbar.set_color_blue()
                 sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
@@ -128,6 +134,7 @@ class Controller(QThread):
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                self.controller.lightbar.set_color_blue()
                 sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
@@ -140,6 +147,7 @@ class Controller(QThread):
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                self.controller.lightbar.set_color_white()
                 sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
         except Exception as e:
             self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
