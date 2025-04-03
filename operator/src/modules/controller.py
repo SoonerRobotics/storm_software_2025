@@ -6,6 +6,8 @@ from google.protobuf.message import Message
 import modules.helpers as helpers
 import modules.messages_pb2 as messages_pb2
 
+CONTROLLER_DEADZONE = 0.2
+
 class Controller(QThread):
 
     controller_update = pyqtSignal(str)
@@ -30,10 +32,10 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = self.controller.right_trigger._get_value()
-        motor_command.left_motor_speed = self.controller.right_trigger._get_value()
+        motor_command.right_motor_speed = float(self.controller.right_trigger._get_value())
+        motor_command.left_motor_speed = float(self.controller.right_trigger._get_value())
         serialized = message.SerializeToString()
-        if self.controller.right_trigger._get_value() > helpers.CONTROLLER_DEADZONE:
+        if float(self.controller.right_trigger._get_value()) > CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
@@ -47,10 +49,10 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = -self.controller.left_trigger._get_value()
-        motor_command.left_motor_speed = -self.controller.left_trigger._get_value()
+        motor_command.right_motor_speed = float(-self.controller.left_trigger._get_value())
+        motor_command.left_motor_speed = float(-self.controller.left_trigger._get_value())
         serialized = message.SerializeToString()
-        if self.controller.left_trigger._get_value() > helpers.CONTROLLER_DEADZONE:
+        if float(self.controller.left_trigger._get_value()) > CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
@@ -64,10 +66,10 @@ class Controller(QThread):
         message = messages_pb2.Wrapper()
         message.type = messages_pb2.MOTOR_COMMAND
         motor_command = message.motor_command
-        motor_command.right_motor_speed = self.controller.left_stick_x._get_value()
-        motor_command.left_motor_speed = -self.controller.left_stick_x._get_value()
+        motor_command.right_motor_speed = float(self.controller.left_stick_x._get_value())
+        motor_command.left_motor_speed = float(-self.controller.left_stick_x._get_value())
         serialized = message.SerializeToString()
-        if abs(self.controller.left_stick_x._get_value()) > helpers.CONTROLLER_DEADZONE:
+        if abs(float(self.controller.left_stick_x._get_value())) > CONTROLLER_DEADZONE:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                     sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))

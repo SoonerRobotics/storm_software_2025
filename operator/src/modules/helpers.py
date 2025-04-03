@@ -37,8 +37,6 @@ DARK_THEME = """
         }
     """
 
-CONTROLLER_DEADZONE = 0.2
-
 def log_config():
     sys.path.insert(0, '/home/braden/storm_software_2025/') # Swap this with your own path.
     log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logs')

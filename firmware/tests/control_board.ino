@@ -31,6 +31,9 @@ Servo front_servo_;
 float back_servo_pos = 1389;
 float front_servo_pos = 1389;
 
+/*
+PID Stuff
+
 const float kp = 0.3;
 const float ki = 0.1;
 float integral = 0.0;
@@ -38,20 +41,16 @@ float right_current_speed;
 float left_current_speed;
 float right_motor_set;
 float left_motor_set;
-unsigned long previous_time;
-unsigned long last_motor_message;
-
 const float pulses_per_rotation = 1425.1;
 const float circumference = 0.30159;
-const float dt = 0.05;
+*/
 
+const float dt = 0.05;
+unsigned long servo_time;
 bool debug = true;
 
-void encoderISR() {
-
-}
-
 void setArm(float back_servo, float front_servo) {
+
   if (back_servo > 0.0) {
     back_servo_pos += 22;
     back_servo_pos = constrain(back_servo_pos, 1000, 1600);
@@ -60,9 +59,7 @@ void setArm(float back_servo, float front_servo) {
     back_servo_pos -= 22;
     back_servo_pos = constrain(back_servo_pos, 1000, 1600);
   }
-  else {
-    // Do Nothing
-  }
+
   if (front_servo > 0.0) {
     front_servo_pos += 22;
     front_servo_pos = constrain(front_servo_pos, 1000, 1600);
@@ -71,32 +68,39 @@ void setArm(float back_servo, float front_servo) {
     front_servo_pos -= 22;
     front_servo_pos = constrain(front_servo_pos, 1000, 1600);
   }
-  else {
-    // Do Nothing
-  }
 
   if (debug) Serial.println("Back servo moving to: " + String(back_servo_pos));
   if (debug) Serial.println("Front servo moving to: " + String(front_servo_pos));
+
   back_servo_.writeMicroseconds(back_servo_pos);
   front_servo_.writeMicroseconds(front_servo_pos);
 
 }
 
 void setIntakeMotor(float speed) {
-  intake_motor_.writeMicroseconds(map(speed, -1, 1, 500, 2500));
+
+  intake_motor_.writeMicroseconds(map(speed, -1, 1, 2500, 500));
+
 }
 
 void setDrivetrainMotors(float left_speed, float right_speed) {
+
   right_motor_.writeMicroseconds(map(right_speed, -1, 1, 500, 2500));
   left_motor_.writeMicroseconds(map(left_speed, 1, -1, 500, 2500));
+
 }
 
 void setup() {
 
     Serial.begin(115200);
-    // while (!Serial);
+    if (debug) {
+      while (!Serial);
+    }
     Serial2.begin(115200);
 
+    Wire.setSDA(I2C_SDA);
+    Wire.setSCL(I2C_SCL);
+    Wire.begin();
 
     pinMode(RIGHT_MOTOR, OUTPUT);
     pinMode(R_ENCA, INPUT);
@@ -116,24 +120,25 @@ void setup() {
     back_servo_.writeMicroseconds(back_servo_pos);
     front_servo_.writeMicroseconds(front_servo_pos);
 
-    // attachInterrupt(digitalPinToInterrupt(R_ENA), encoderISR, CHANGE);
-    // attachInterrupt(digitalPinToInterrupt(L_ENCA), encoderISR, CHANGE);
 }
 
 void loop() {
 
   char buff[9];
+  char control_state;
   float left_motor_speed;
   float right_motor_speed;
   float back_arm;
   float front_arm;
   float intake_speed;
-  uint8_t actuator_control;
-  uint8_t control_state;
-  bool motor_set = false;
+  float actuator_control;
+  float zero_pad;
+
+  int ir_output = 0;
+  unsigned char ir_received;
   
   unsigned long current_time = millis();
-  float delta_time = (current_time - previous_time) / 1000.0;
+  float delta_time = (current_time - servo_time) / 1000.0;
 
   if (Serial2.available() >= 9) {
 
@@ -144,30 +149,45 @@ void loop() {
       case 1:
         memcpy(&right_motor_speed, &buff[1], sizeof(float));
         memcpy(&left_motor_speed, &buff[5], sizeof(float));
-        if (debug) Serial.println("Received motor command: " + String(left_motor_speed) + ", " + String(right_motor_speed));
+        if (debug && (left_motor_speed != 0.0 && right_motor_speed != 0.0)) Serial.println("Received motor command: " + String(left_motor_speed) + ", " + String(right_motor_speed));
         setDrivetrainMotors(left_motor_speed, right_motor_speed);
-        last_motor_message = millis();
         break;
       case 2:
         memcpy(&back_arm, &buff[1], sizeof(float));
         memcpy(&front_arm, &buff[5], sizeof(float));
-        if (debug) Serial.println("Received arm command: " + String(back_arm) + ", " + String(front_arm));
+        if (debug && (back_arm != 0.0 && front_arm != 0.0)) Serial.println("Received arm command: " + String(back_arm) + ", " + String(front_arm));
         if (delta_time >= dt) {
           setArm(back_arm, front_arm);
-          previous_time = current_time;
+          servo_time = current_time;
         }
         break;
       case 3:
         memcpy(&intake_speed, &buff[1], sizeof(float));
+        memcpy(&zero_pad, &buff[5], sizeof(float));
         if (debug) Serial.println("Received intake command: " + String(intake_speed));
         setIntakeMotor(intake_speed);
         break;
       case 4:
         memcpy(&actuator_control, &buff[1], sizeof(float));
+        memcpy(&zero_pad, &buff[5], sizeof(float));
         if (debug) Serial.println("Received actuator command.");
       default:
         Serial.println("Unknown command.");
     }
   }
-  
+
+  Wire.requestFrom(2, 1);
+  while(Wire.available()) {
+    ir_received = Wire.read();
+    ir_output = ir_received;
+  }
+  for (int x = 0; x < 3; x++) {
+    Wire.requestFrom(2, 1);
+    while (Wire.available()) {
+      ir_received = Wire.read();
+      ir_output |= (ir_received << 8);
+    }
+  }
+  if (debug) Serial.println("IR Output: " + String(ir_output));
+
 }
