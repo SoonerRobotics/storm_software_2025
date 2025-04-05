@@ -6,7 +6,8 @@
 VideoStream::VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port, int camera_index)
     : io_service(io_service),
       socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
-      udp_endpoint(boost::asio::ip::address::from_string(host), port) {}
+      udp_endpoint(boost::asio::ip::address::from_string(host), port),
+      camera_index(camera_index) {} 
 
 void VideoStream::start() {
 
@@ -30,9 +31,9 @@ void VideoStream::start() {
         }
 
         std::vector<uchar> frame_data;
-	    std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80};
+        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80};
         cv::imencode(".jpg", frame, frame_data, params);
-	    frame_data.resize(frame_data.size(), 0);
+        frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
         
         try {
@@ -47,5 +48,3 @@ void VideoStream::start() {
     cap.release();
     
 }
-
-
