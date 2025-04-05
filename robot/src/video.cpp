@@ -22,6 +22,9 @@ void VideoStream::start() {
     cap.set(cv::CAP_PROP_FRAME_WIDTH, width);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);
 
+    int frame_skip = 2;
+    int frame_count = 0;
+
     while (true) {
         cv::Mat frame;
         cap >> frame; 
@@ -30,8 +33,13 @@ void VideoStream::start() {
             break;
         }
 
+        frame_count++;
+        if (frame_count % frame_skip != 0) {
+            continue; 
+        }
+
         std::vector<uchar> frame_data;
-        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80};
+        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 40};
         cv::imencode(".jpg", frame, frame_data, params);
         frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());

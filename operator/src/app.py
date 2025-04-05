@@ -180,7 +180,8 @@ class MainWindow(QMainWindow):
         bytes_per_line = ch * w
         qImg = QImage(frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
         pixmap = QPixmap.fromImage(qImg)
-        self.overlay_video_panel.setPixmap(pixmap)
+        stretched_pixmap = pixmap.scaled(self.video_panel.size(), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.overlay_video_panel.setPixmap(stretched_pixmap)
 
     def update_robot(self, state):
         self.robot_state.setText(state)
