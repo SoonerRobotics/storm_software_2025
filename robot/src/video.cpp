@@ -3,14 +3,14 @@
 #include <iostream>
 #include <vector>
 
-VideoStream::VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port)
+VideoStream::VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port, int camera_index)
     : io_service(io_service),
       socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
       udp_endpoint(boost::asio::ip::address::from_string(host), port) {}
 
 void VideoStream::start() {
 
-    cv::VideoCapture cap(0);
+    cv::VideoCapture cap(camera_index);
     if (!cap.isOpened()) {
         std::cerr << "Error: Couldn't open video capture!" << std::endl;
         return;
