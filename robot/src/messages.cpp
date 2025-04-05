@@ -42,33 +42,20 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
         std::string received_data;
         std::getline(is, received_data);
 
-        received_data.erase(std::remove(received_data.begin(), received_data.end(), '\r'), received_data.end());
-
         if (received_data.empty()) {
             readSerial();
             return;
         }
 
-        if (received_data.size() > 1) {
-            uint8_t id = received_data[0];
-            std::string distance_str = received_data.substr(1);
+        if (received_data.size() == 4) {
+            const uint8_t* bytes = reinterpret_cast<const uint8_t*>(received_data.data());
+            uint32_t ir_code =
+                ((uint32_t)bytes[0]) |
+                ((uint32_t)bytes[1] << 8) |
+                ((uint32_t)bytes[2] << 16) |
+                ((uint32_t)bytes[3] << 24);
 
-            switch (id) {
-                case 1: {
-                    if (received_data.size() >= 3) {
-                        char id = static_cast<char>(received_data[1]);
-                        uint8_t distance = received_data[2];
-                        sendUDP(received_data);
-                    }
-                    break;
-                }
-                case 2: {
-                    if (received_data.size() >= 3) {
-                        uint16_t ir_value = (received_data[1] << 8) | received_data[2];
-                        sendUDP(received_data);
-                    }
-                }
-            }
+            std::cout << "IR Code (hex): 0x" << std::hex << ir_code << std::dec << std::endl;
         }
         else {
             std::cerr << "Error: Invalid data format from serial port" << std::endl;
