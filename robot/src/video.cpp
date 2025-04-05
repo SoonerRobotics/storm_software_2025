@@ -17,8 +17,8 @@ void VideoStream::start() {
         return;
     }
     
-    double width = 320;
-    double height = 240;
+    double width = 256;
+    double height = 144;
     cap.set(cv::CAP_PROP_FRAME_WIDTH, width);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);
 
@@ -41,7 +41,6 @@ void VideoStream::start() {
         std::vector<uchar> frame_data;
         std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 40};
         cv::imencode(".jpg", frame, frame_data, params);
-        frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
         
         try {
