@@ -21,7 +21,6 @@ class Controller(QThread):
             self.log_update.emit(helpers.log('No DualSense Controller available.', self.name))
         self.controller = DualSenseController()
         self.controller.btn_cross.on_down(self.send_intake_command_off)
-        self.controller.btn_square.on_down(self.send_intake_command_slow)
         self.controller.btn_triangle.on_down(self.send_intake_command_fast)
         self.controller.btn_circle.on_down(self.send_actuator_command)
         self.controller.activate()
@@ -105,19 +104,6 @@ class Controller(QThread):
         message.type = messages_pb2.INTAKE_COMMAND
         intake_command = message.intake_command
         intake_command.speed = 0.0
-        serialized = message.SerializeToString()
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-                self.controller.lightbar.set_color_blue()
-                sock.sendto(serialized, (helpers.HOST, helpers.CONTROLLER_PORT))
-        except Exception as e:
-            self.log_update.emit(helpers.log(f'Error sending data: {e}', self.name))
-
-    def send_intake_command_slow(self):
-        message = messages_pb2.Wrapper()
-        message.type = messages_pb2.INTAKE_COMMAND
-        intake_command = message.intake_command
-        intake_command.speed = -0.5
         serialized = message.SerializeToString()
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:

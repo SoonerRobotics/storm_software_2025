@@ -8,15 +8,16 @@ class VideoReceiver(QThread):
     image_received = pyqtSignal(np.ndarray)
     log_update = pyqtSignal(str)
 
-    def __init__(self):
+    def __init__(self, port):
         super().__init__()
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.client_socket.bind(('', helpers.VIDEO_PORT))
+        self.port = port
+        self.client_socket.bind(('', self.port))
         self.name = 'Video Thread'
         self.running = True
 
     def run(self):
-        self.log_update.emit(helpers.log(f'Thread initialized. Listening on {helpers.VIDEO_PORT}.', self.name))
+        self.log_update.emit(helpers.log(f'Thread initialized. Listening on {self.port}.', self.name))
         try:
             while self.running:
                 data, addr = self.client_socket.recvfrom(65536)

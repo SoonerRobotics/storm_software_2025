@@ -44,10 +44,10 @@ class RobotMessages(QThread):
                 data, addr = self.client_socket.recvfrom(1024)
                 if len(data) == 4:
                     ir_code = struct.unpack('<I', data)[0]
-                    self.robot_update.emit(f'Infrared: {ir_code}');
+                    self.infrared = f'0x{ir_code:08X}'
+                    self.log_update.emit(helpers.log(f'Received valid 4-byte data from {addr}: {data}', self.name))
                 else:
-                    print(f"Unexpected data size: {len(data)} bytes: {data}")
-                self.log_update.emit(helpers.log(f'Received data from {addr}: {data}', self.name))
+                    self.log_update.emit(helpers.log(f'Unexpected data size ({len(data)} bytes) from {addr}: {data}', self.name))
                 self.robot_state(1)
             except Exception as e:
                 self.log_update.emit(helpers.log(f'Error receiving data: {e}', self.name))

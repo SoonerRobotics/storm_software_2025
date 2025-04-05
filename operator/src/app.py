@@ -19,9 +19,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.video = VideoReceiver()
+        self.video = VideoReceiver(helpers.VIDEO_PORT)
         self.video.image_received.connect(self.update_frame)
         self.video.log_update.connect(self.update_log)
+
+        self.video_overlay = VideoReceiver(helpers.VIDEO_OVERLAY_PORT)
+        self.video_overlay.image_received.connect(self.update_overlay_frame)
+        self.video_overlay.log_update.connect(self.update_log)
 
         self.robot = RobotMessages()
         self.robot.robot_update.connect(self.update_robot)
@@ -37,6 +41,7 @@ class MainWindow(QMainWindow):
         self.ssh.start()
         self.robot.start()
         self.video.start()
+        self.video_overlay.start()
         self.controller.start()
 
         self.init_ui()
@@ -105,7 +110,7 @@ class MainWindow(QMainWindow):
 
         self.video_panel = QLabel(self)
         self.video_panel.setFixedSize(1600, 675)
-        
+
         blue_image = np.zeros((self.video_panel.height(), self.video_panel.width(), 3), dtype=np.uint8)
         blue_image[:] = (0, 0, 255)
         font = cv2.FONT_HERSHEY_SIMPLEX
@@ -119,15 +124,25 @@ class MainWindow(QMainWindow):
         qImg = QImage(blue_image.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
         self.video_panel.setPixmap(QPixmap.fromImage(qImg))
 
+        self.overlay_video_panel = QLabel(self)
+        self.overlay_video_panel.setFixedSize(400, 225)
+        self.overlay_video_panel.setPixmap(QPixmap.fromImage(qImg))
+        self.overlay_video_panel.move(self.video_panel.width() - self.overlay_video_panel.width() - 10, 
+                          self.video_panel.height() - self.overlay_video_panel.height() - 10)
+
         right_panel.addStretch(1)
         right_panel.addWidget(self.video_panel, alignment=Qt.AlignmentFlag.AlignCenter)
         right_panel.addStretch(1)
-        
+
+        self.video_panel.layout = QVBoxLayout(self.video_panel)
+        self.video_panel.layout.setContentsMargins(0, 0, 0, 0)
+        self.video_panel.layout.addWidget(self.overlay_video_panel, alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight)
+
         self.log_display = QTextEdit(self)
         self.log_display.setReadOnly(True)
         self.log_display.setFont(QFont("Courier New", 8))
         self.log_display.setReadOnly(True)
-        self.log_display.setPlainText(f"{text2art("T B D  O p e r a t o r  I n t e r f a c e")}\nDate: {QDate.currentDate().toString()}\nTime: {QTime.currentTime().toString()}\n")
+        self.log_display.setPlainText(f"{text2art('T B D  O p e r a t o r  I n t e r f a c e')}\nDate: {QDate.currentDate().toString()}\nTime: {QTime.currentTime().toString()}\n")
         self.log_display.setFixedHeight(225)
         self.log_display.setFixedWidth(1600)
 
@@ -158,6 +173,14 @@ class MainWindow(QMainWindow):
         pixmap = QPixmap.fromImage(qImg)
         stretched_pixmap = pixmap.scaled(self.video_panel.size(), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.video_panel.setPixmap(stretched_pixmap)
+
+    def update_overlay_frame(self, frame):
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = frame.shape
+        bytes_per_line = ch * w
+        qImg = QImage(frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+        pixmap = QPixmap.fromImage(qImg)
+        self.overlay_video_panel.setPixmap(pixmap)
 
     def update_robot(self, state):
         self.robot_state.setText(state)
