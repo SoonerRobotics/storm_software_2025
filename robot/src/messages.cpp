@@ -157,7 +157,7 @@ void SerialUDP::sendSerial(const std::string& message) {
 
 void SerialUDP::sendUDP(const std::string& message) {
     try {
-        boost::asio::ip::udp::endpoint send_endpoint(boost::asio::ip::address::from_string("192.168.1.66"), udp_endpoint.port());
+        boost::asio::ip::udp::endpoint send_endpoint(boost::asio::ip::address::from_string("192.168.1.69"), udp_endpoint.port());
         udp_socket.async_send_to(boost::asio::buffer(message), send_endpoint,
             boost::bind(&SerialUDP::handleUDPWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
     } catch (const std::exception& e) {

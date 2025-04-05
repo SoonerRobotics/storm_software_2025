@@ -10,7 +10,7 @@ VideoStream::VideoStream(boost::asio::io_service& io_service, const std::string&
 
 void VideoStream::start() {
 
-    cv::VideoCapture cap(0); 
+    cv::VideoCapture cap(0);
     if (!cap.isOpened()) {
         std::cerr << "Error: Couldn't open video capture!" << std::endl;
         return;
@@ -30,7 +30,7 @@ void VideoStream::start() {
         }
 
         std::vector<uchar> frame_data;
-	    std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80, cv::IMWRITE_JPEG_OPTIMIZE, 1};
+	    std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80};
         cv::imencode(".jpg", frame, frame_data, params);
 	    frame_data.resize(frame_data.size(), 0);
         boost::asio::const_buffer buffer(frame_data.data(), frame_data.size());
