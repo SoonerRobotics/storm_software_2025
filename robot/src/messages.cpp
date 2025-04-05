@@ -42,7 +42,7 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
         std::string received_data;
         std::getline(is, received_data);
 	
-	// If no data, go back to reading serial
+	    // If no data, go back to reading serial
         if (received_data.empty()) {
             readSerial();
             return;
@@ -55,6 +55,8 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
                 ((uint32_t)bytes[1] << 8) |
                 ((uint32_t)bytes[2] << 16) |
                 ((uint32_t)bytes[3] << 24);
+
+            sendUDP(received_data); // Send the received data over UDP
 
             std::cout << "IR Code (hex): 0x" << std::hex << ir_code << std::dec << std::endl;
         }
@@ -154,7 +156,8 @@ void SerialUDP::sendSerial(const std::string& message) {
 }
 
 void SerialUDP::sendUDP(const std::string& message) {
-    udp_socket.async_send_to(boost::asio::buffer(message), udp_endpoint,
+    boost::asio::ip::udp::endpoint send_endpoint(boost::asio::ip::address::from_string("192.168.1.66"), udp_endpoint.port());
+    udp_socket.async_send_to(boost::asio::buffer(message), send_endpoint,
         boost::bind(&SerialUDP::handleUDPWrite, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
