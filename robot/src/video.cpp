@@ -17,8 +17,8 @@ void VideoStream::start() {
         return;
     }
     
-    double width = 640;
-    double height = 480;
+    double width = 320;
+    double height = 240;
     cap.set(cv::CAP_PROP_FRAME_WIDTH, width);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, height);
 
