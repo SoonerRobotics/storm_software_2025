@@ -41,7 +41,8 @@ void SerialUDP::handleSerialRead(const boost::system::error_code& error, size_t 
         std::istream is(&serial_buffer);
         std::string received_data;
         std::getline(is, received_data);
-
+	
+	// If no data, go back to reading serial
         if (received_data.empty()) {
             readSerial();
             return;
