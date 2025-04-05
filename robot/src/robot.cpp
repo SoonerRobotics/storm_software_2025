@@ -16,8 +16,8 @@ int main() {
 	std::cout << "Starting robot..." << std::endl;
 
 	SerialUDP serial_udp = SerialUDP(io_service, "/dev/ttyUSB0", "0.0.0.0", 5001);
-	VideoStream video_stream = VideoStream(io_service, "192.168.1.69", 5000, 0);
-	VideoStream video_overlay = VideoStream(io_service, "192.168.1.69", 5002, 1);
+	VideoStream video_stream = VideoStream(io_service, "10.10.1.44", 5000, 0);
+	// VideoStream video_overlay = VideoStream(io_service, "10.10.1.44", 5002, 1);
 
 	boost::thread serial_udp_thread([&]() {
 		serial_udp.start();
@@ -27,13 +27,15 @@ int main() {
 		video_stream.start();
 	});	
 
+	/*
 	boost::thread video_overlay_thread([&]() {
 		video_overlay.start();
 	});
+	*/
 
 	serial_udp_thread.join();
 	video_stream_thread.join();
-	video_overlay_thread.join();
+	// video_overlay_thread.join();
 	
   }
   catch (const std::exception& e) {
