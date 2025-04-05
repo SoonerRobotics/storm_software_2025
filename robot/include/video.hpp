@@ -7,7 +7,7 @@
 
 class VideoStream {
 public:
-    VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port);
+    VideoStream(boost::asio::io_service& io_service, const std::string& host, unsigned short port, int camera_index);
     void start();
 
 private:
