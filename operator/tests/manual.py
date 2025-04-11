@@ -13,6 +13,7 @@ ARM_BUTTON_COMMAND = 5;
 class RobotControl():
 
     def __init__(self):
+        self.running = True
         device_infos = DualSenseController.enumerate_devices()
         while len(device_infos) < 1:
             device_infos = DualSenseController.enumerate_devices()
@@ -20,10 +21,19 @@ class RobotControl():
         self.controller.btn_cross.on_down(self.send_intake_command_off)
         self.controller.btn_triangle.on_down(self.send_intake_command_on)
         self.controller.btn_circle.on_down(self.send_actuator_command)
+        self.controller.btn_square.on_down(self.toggle_robot)
         self.controller.activate()
         self.controller.lightbar.set_color_green()
 
         self.pico = serial.Serial('/dev/ttyUSB0', 115200)
+
+    def toggle_robot(self):
+        if self.running:
+            self.running = False
+            self.controller.lightbar.set_color_red()
+        else:
+            self.running = True
+            self.controller.lightbar.set_color_green()
     
     def send_right_trigger_motor_command(self):
         right_motor_speed = float(self.controller.right_trigger._get_value())
@@ -100,28 +110,37 @@ class RobotControl():
         right_trig = 0.0
         left_stick = 0.0
 
-        while True:
+        try:
 
-            left_trig = self.send_left_trigger_motor_command()
-            right_trig = self.send_right_trigger_motor_command()
-            left_stick = self.send_stick_motor_command()
+            while True:
 
-            if left_trig == 0 and right_trig == 0 and left_stick == 0:
-                right_motor_speed = 0.0
-                left_motor_speed = 0.0
-                packet = MOTOR_COMMAND.to_bytes(1, "little")
-                packet += bytearray(struct.pack( "<f", right_motor_speed))
-                packet += bytearray(struct.pack( "<f", left_motor_speed))
-                self.pico.write(packet)
+                if (self.running == False):
+                    continue
 
-            left_trig = 0.0
-            right_trig = 0.0
-            left_stick = 0.0
+                left_trig = self.send_left_trigger_motor_command()
+                right_trig = self.send_right_trigger_motor_command()
+                left_stick = self.send_stick_motor_command()
 
-            self.send_arm_command()
+                if left_trig == 0 and right_trig == 0 and left_stick == 0:
+                    right_motor_speed = 0.0
+                    left_motor_speed = 0.0
+                    packet = MOTOR_COMMAND.to_bytes(1, "little")
+                    packet += bytearray(struct.pack( "<f", right_motor_speed))
+                    packet += bytearray(struct.pack( "<f", left_motor_speed))
+                    self.pico.write(packet)
 
-        controller.deactivate()
+                left_trig = 0.0
+                right_trig = 0.0
+                left_stick = 0.0
 
+                self.send_arm_command()
+            
+        except KeyboardInterrupt:
+            print("Exiting...")
+            self.pico.close()
+            self.controller.lightbar.set_color_blue()
+            self.controller.deactivate
+            sys.exit(0)
 
 if __name__ == "__main__":
     
