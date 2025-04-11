@@ -14,14 +14,14 @@ class RobotControl():
 
     def __init__(self):
         device_infos = DualSenseController.enumerate_devices()
-        if len(device_infos) == 0:
-            print("No DualSense controller found.")
-            return
+        while len(device_infos) < 1:
+            device_infos = DualSenseController.enumerate_devices()
         self.controller = DualSenseController()
         self.controller.btn_cross.on_down(self.send_intake_command_off)
         self.controller.btn_triangle.on_down(self.send_intake_command_on)
         self.controller.btn_circle.on_down(self.send_actuator_command)
         self.controller.activate()
+        self.controller.lightbar.set_color_green()
 
         self.pico = serial.Serial('/dev/ttyUSB0', 115200)
     
@@ -31,28 +31,44 @@ class RobotControl():
         packet = MOTOR_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", right_motor_speed))
         packet += bytearray(struct.pack( "<f", left_motor_speed))
-        self.pico.write(packet)
-    
+        if float(self.controller.right_trigger._get_value()) > 0.2:
+            self.pico.write(packet)
+            return 1
+        else:
+            return 0
+
     def send_left_trigger_motor_command(self):
-        right_motor_speed = float(-self.controller.left_trigger._get_value())
-        left_motor_speed = float(-self.controller.left_trigger._get_value())
+        right_motor_speed = -1 * float(self.controller.left_trigger._get_value())
+        left_motor_speed = -1 * float(self.controller.left_trigger._get_value())
         packet = MOTOR_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", right_motor_speed))
         packet += bytearray(struct.pack( "<f", left_motor_speed))
-        self.pico.write(packet)
-    
+        if float(self.controller.left_trigger._get_value()) > 0.2:
+            self.pico.write(packet)
+            return 1
+        else:
+            return 0
+
     def send_stick_motor_command(self):
         right_motor_speed = float(self.controller.left_stick_x._get_value())
-        left_motor_speed = float(-self.controller.left_stick_y._get_value())
+        left_motor_speed = -1 * float(self.controller.left_stick_x._get_value())
         packet = MOTOR_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", right_motor_speed))
         packet += bytearray(struct.pack( "<f", left_motor_speed))
-        self.pico.write(packet)
+        if abs(float(self.controller.left_stick_x._get_value())) > 0.2:
+            self.pico.write(packet)
+            return 1
+        else:
+            return 0
 
     def send_arm_command(self):
         back_servo = float(self.controller.right_stick_x._get_value())
         front_servo = float(self.controller.right_stick_y._get_value())
         packet = ARM_COMMAND.to_bytes(1, "little")
+        if abs(self.controller.right_stick_x._get_value()) > abs(self.controller.right_stick_y._get_value()):
+            back_servo = 0.0
+        else:
+            front_servo = 0.0
         packet += bytearray(struct.pack( "<f", back_servo))
         packet += bytearray(struct.pack( "<f", front_servo))
         self.pico.write(packet)
@@ -61,18 +77,21 @@ class RobotControl():
         speed = 0.0
         packet = INTAKE_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", speed))
+        packet += bytearray(struct.pack( "<f", 0.0))
         self.pico.write(packet)
     
     def send_intake_command_on(self):
         speed = 1.0
         packet = INTAKE_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", speed))
+        packet += bytearray(struct.pack( "<f", 0.0))
         self.pico.write(packet)
 
     def send_actuator_command(self):
         id = 1
         packet = ACTUATOR_COMMAND.to_bytes(1, "little")
         packet += bytearray(struct.pack( "<f", id))
+        packet += bytearray(struct.pack( "<f", 0.0))
         self.pico.write(packet)
 
     def run(self):
